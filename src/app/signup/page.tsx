@@ -1,15 +1,13 @@
 "use client";
 import React from "react";
-import dynamic from "next/dynamic";
+import SignUpForm from "./SignUpForm";
 import Link from "next/link";
 import Image from "next/image";
 import user_reg from "../../../public/assets/images/user_reg.png";
 
-const SignUpForm = dynamic(() => import("./SignUpForm"));
-
 type Props = {};
 
-const Page = (props: Props) => {
+const page = (props: Props) => {
   return (
     <div className="max-h-screen flex justify-center bg-gray-50 p-4">
       <div className="flex flex-col md:flex-row w-full overflow-hidden">
@@ -19,13 +17,10 @@ const Page = (props: Props) => {
             alt="Signup"
             className="w-full h-full"
             style={{ objectFit: "contain" }}
-            priority 
-            placeholder="blur" 
-            sizes="(max-width: 768px) 100vw, 50vw" 
           />
         </div>
-        <div className="w-full md:w-1/2 flex flex-col p-6 justify-center md:pl-32">
-          <h2 className="text-3xl md:text-4xl font-medium mb-6">Sign up</h2>
+        <div className="w-full md:w-1/2 h-2/3 md:h-full flex flex-col p-6 justify-center md:px-32">
+          <h2 className="text-3xl md:text-4xl font-medium mb-6">Sign Up</h2>
           <p className="text-sm mb-4">
             Already have an account?{" "}
             <Link href="/signin" className="text-green-500 font-medium">
@@ -39,4 +34,4 @@ const Page = (props: Props) => {
   );
 };
 
-export default Page;
+export default page;
