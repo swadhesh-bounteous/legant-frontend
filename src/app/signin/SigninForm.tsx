@@ -10,6 +10,7 @@ import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { useState } from "react";
 import { signInSchema } from "@/types/SignInSchema";
+import Typography from "@/components/common/Typography";
 
 type SignInFormData = z.infer<typeof signInSchema>;
 
@@ -44,7 +45,7 @@ const SigninForm = () => {
             placeholder="example@gmail.com"
           />
           {errors.email && (
-            <p className="text-red-600 py-2 text-xs">{errors.email.message}</p>
+            <Typography variant="p" className="text-red-600 py-2 text-xs">{errors.email.message}</Typography>
           )}
         </div>
         <div className="relative">
@@ -55,16 +56,16 @@ const SigninForm = () => {
             {...register("password")}
             className="mt-1 w-full"
           />
-          <span
+          <Typography variant="span"
             onClick={() => setShowPassword(!showPassword)}
             className="absolute right-2 top-[2.5rem] cursor-pointer text-gray-500"
           >
             {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
-          </span>
+          </Typography>
           {errors.password && (
-            <p className="text-red-600 py-2 text-xs">
+            <Typography variant="p" className="text-red-600 py-2 text-xs">
               {errors.password.message}
-            </p>
+            </Typography>
           )}
         </div>
         <Button type="submit" className="w-full bg-black text-white mt-4">

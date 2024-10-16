@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "../ui/dropdown-menu"; 
 import { ChevronDown, Grid, LayoutGrid, List, ListTree } from "lucide-react";
+import ViewToggleButton from "../common/ViewToggleButton";
+import Typography from "../common/Typography";
 
 type Props = {};
 
@@ -20,7 +22,7 @@ const ShopGridSection = (props: Props) => {
       <div className="flex items-center justify-between w-[90%] mx-auto py-4">
         <div className="flex items-center space-x-4">
           <div>
-            <span className="block text-xs uppercase">Categories</span>
+            <Typography variant="span" className="block text-xs uppercase">Categories</Typography>
             <DropdownMenu>
               <DropdownMenuTrigger className="flex justify-between items-center border px-4 py-2 rounded w-56">
                 {selectedCategory}
@@ -40,7 +42,7 @@ const ShopGridSection = (props: Props) => {
           </div>
 
           <div>
-            <span className="block text-xs uppercase">Price</span>
+            <Typography variant="span" className="block text-xs uppercase">Price</Typography>
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center border px-4 py-2 rounded w-56 justify-between">
                 {selectedPrice}
@@ -61,7 +63,7 @@ const ShopGridSection = (props: Props) => {
         </div>
 
         <div className="flex items-center space-x-4">
-        <span className="text-sm">Sort by</span>
+        <Typography variant="span" className="text-sm">Sort By</Typography>
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center border px-4 py-2 rounded w-56 justify-between">
               {sortBy}
@@ -78,30 +80,30 @@ const ShopGridSection = (props: Props) => {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          <button
-            className={`p-2 rounded ${viewType === 'grid' ? 'bg-gray-200' : ''}`}
-            onClick={() => setViewType('grid')}
-          >
-            <Grid className="w-5 h-5" />
-          </button>
-          <button
-            className={`p-2 rounded ${viewType === 'compact-grid' ? 'bg-gray-200' : ''}`}
-            onClick={() => setViewType('compact-grid')}
-          >
-            <LayoutGrid className="w-5 h-5" />
-          </button>
-          <button
-            className={`p-2 rounded ${viewType === 'list' ? 'bg-gray-200' : ''}`}
-            onClick={() => setViewType('list')}
-          >
-            <List className="w-5 h-5" />
-          </button>
-          <button
-            className={`p-2 rounded ${viewType === 'list-tree' ? 'bg-gray-200' : ''}`}
-            onClick={() => setViewType('list-tree')}
-          >
-            <ListTree className="w-5 h-5" />
-          </button>
+          <ViewToggleButton
+            viewType="grid"
+            currentViewType={viewType}
+            Icon={Grid}
+            onClick={() => setViewType("grid")}
+          />
+          <ViewToggleButton
+            viewType="compact-grid"
+            currentViewType={viewType}
+            Icon={LayoutGrid}
+            onClick={() => setViewType("compact-grid")}
+          />
+          <ViewToggleButton
+            viewType="list"
+            currentViewType={viewType}
+            Icon={List}
+            onClick={() => setViewType("list")}
+          />
+          <ViewToggleButton
+            viewType="list-tree"
+            currentViewType={viewType}
+            Icon={ListTree}
+            onClick={() => setViewType("list-tree")}
+          />
         </div>
       </div>
       <section></section>

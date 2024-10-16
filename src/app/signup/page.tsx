@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import user_reg from "../../../public/assets/images/user_reg.png";
 import dynamic from "next/dynamic";
+import Typography from "@/components/common/Typography";
 
 const SignUpForm = dynamic(()=> import('./SignUpForm'))
 
@@ -22,13 +23,13 @@ const page = () => {
           />
         </div>
         <div className="w-full md:w-1/2 h-2/3 md:h-full flex flex-col p-6 justify-center md:px-32">
-          <h2 className="text-3xl md:text-4xl font-medium mb-6">Sign Up</h2>
-          <p className="text-sm mb-4">
+          <Typography variant="h2" className="text-3xl md:text-4xl font-medium mb-6">Sign Up</Typography>
+          <Typography variant="p" className="text-sm mb-4">
             Already have an account?{" "}
             <Link href="/signin" className="text-green-500 font-medium">
               Sign in
             </Link>
-          </p>
+          </Typography>
           <SignUpForm />
         </div>
       </div>

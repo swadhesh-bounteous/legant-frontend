@@ -10,6 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { signUpSchema } from "@/types/SignUpSchema";
+import Typography from "@/components/common/Typography";
 
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
@@ -43,7 +44,7 @@ const SignUpForm = () => {
             className="mt-1 w-full"
           />
           {errors.name && (
-            <p className="text-red-600 py-2 text-xs">{errors.name.message}</p>
+            <Typography variant="p" className="text-red-600 py-2 text-xs">{errors.name.message}</Typography>
           )}
         </div>
 
@@ -57,7 +58,7 @@ const SignUpForm = () => {
             placeholder="example@gmail.com"
           />
           {errors.email && (
-            <p className="text-red-600 py-2 text-xs">{errors.email.message}</p>
+            <Typography variant="p" className="text-red-600 py-2 text-xs">{errors.email.message}</Typography>
           )}
         </div>
 
@@ -69,16 +70,16 @@ const SignUpForm = () => {
             {...register("password")}
             className="mt-1 w-full"
           />
-          <span
+          <Typography variant="span"
             onClick={() => setShowPassword(!showPassword)}
             className="absolute right-2 top-[2.5rem] cursor-pointer text-gray-500"
           >
             {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
-          </span>
+          </Typography>
           {errors.password && (
-            <p className="text-red-600 py-2 text-xs">
+            <Typography variant="p" className="text-red-600 py-2 text-xs">
               {errors.password.message}
-            </p>
+            </Typography>
           )}
         </div>
 
