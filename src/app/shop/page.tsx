@@ -1,10 +1,15 @@
+import Navbar from '@/components/common/Navbar'
+import ShopGridSection from '@/components/shopgridsection/ShopGridSection'
+import ShopUpperSection from '@/components/shopuppersection/ShopUpperSection'
 import React from 'react'
 
-type Props = {}
-
-const page = (props: Props) => {
+const page = () => {
   return (
-    <div>page</div>
+    <div className='flex flex-col'>
+        <Navbar/>
+        <ShopUpperSection/>
+        <ShopGridSection/>
+    </div>
   )
 }
 

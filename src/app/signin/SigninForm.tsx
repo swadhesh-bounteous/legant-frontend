@@ -6,7 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { useState } from "react";
 import { signInSchema } from "@/types/SignInSchema";
@@ -43,7 +43,9 @@ const SigninForm = () => {
             className="mt-1 w-full"
             placeholder="example@gmail.com"
           />
-          {errors.email && <p className="text-red-600 py-2 text-xs">{errors.email.message}</p>}
+          {errors.email && (
+            <p className="text-red-600 py-2 text-xs">{errors.email.message}</p>
+          )}
         </div>
         <div className="relative">
           <Label htmlFor="password">Password</Label>
@@ -57,9 +59,13 @@ const SigninForm = () => {
             onClick={() => setShowPassword(!showPassword)}
             className="absolute right-2 top-[2.5rem] cursor-pointer text-gray-500"
           >
-            {showPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}
+            {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
           </span>
-          {errors.password && <p className="text-red-600 py-2 text-xs">{errors.password.message}</p>}
+          {errors.password && (
+            <p className="text-red-600 py-2 text-xs">
+              {errors.password.message}
+            </p>
+          )}
         </div>
         <Button type="submit" className="w-full bg-black text-white mt-4">
           Log In

@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { signUpSchema } from "@/types/SignUpSchema";
 
@@ -16,7 +16,11 @@ type SignUpFormData = z.infer<typeof signUpSchema>;
 const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<SignUpFormData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
   });
 
@@ -26,7 +30,10 @@ const SignUpForm = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 md:space-y-8">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6 md:space-y-8"
+      >
         <div>
           <Label htmlFor="name">Your name</Label>
           <Input
@@ -35,7 +42,9 @@ const SignUpForm = () => {
             {...register("name")}
             className="mt-1 w-full"
           />
-          {errors.name && <p className="text-red-600 py-2 text-xs">{errors.name.message}</p>}
+          {errors.name && (
+            <p className="text-red-600 py-2 text-xs">{errors.name.message}</p>
+          )}
         </div>
 
         <div>
@@ -47,7 +56,9 @@ const SignUpForm = () => {
             className="mt-1 w-full"
             placeholder="example@gmail.com"
           />
-          {errors.email && <p className="text-red-600 py-2 text-xs">{errors.email.message}</p>}
+          {errors.email && (
+            <p className="text-red-600 py-2 text-xs">{errors.email.message}</p>
+          )}
         </div>
 
         <div className="relative">
@@ -62,9 +73,13 @@ const SignUpForm = () => {
             onClick={() => setShowPassword(!showPassword)}
             className="absolute right-2 top-[2.5rem] cursor-pointer text-gray-500"
           >
-            {showPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}
+            {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
           </span>
-          {errors.password && <p className="text-red-600 py-2 text-xs">{errors.password.message}</p>}
+          {errors.password && (
+            <p className="text-red-600 py-2 text-xs">
+              {errors.password.message}
+            </p>
+          )}
         </div>
 
         <div className="flex items-center space-x-2">
