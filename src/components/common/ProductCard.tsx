@@ -27,7 +27,7 @@ const ProductCard = ({ product, viewType }: Props) => {
 
   return (
     <div
-      className={`relative border border-gray-200 rounded-sm overflow-hidden shadow-sm group cursor-pointer p-2 ${
+      className={`relative border border-gray-200 rounded-sm overflow-hidden shadow-sm group cursor-pointer ${
         viewType === "list" ? "flex space-x-4" : ""
       }`}
       onClick={handleClick}
@@ -38,7 +38,7 @@ const ProductCard = ({ product, viewType }: Props) => {
           alt={product.name}
           width={200}
           height={200}
-          className="w-full h-72 object-cover bg-gray-100"
+          className="w-full h-72 object-cover bg-gray-100 p-6"
         />
         <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex justify-center items-end transition-opacity duration-300 p-4">
           <Button className="hover:border-2 focus:border-white font-semibold py-2 px-14 rounded-sm">
@@ -49,7 +49,7 @@ const ProductCard = ({ product, viewType }: Props) => {
 
       <div className="p-4 flex flex-col justify-between w-full">
         {calculateDiscount() && (
-          <div className="absolute top-4 left-4 bg-green-400 text-white text-xs font-bold px-2 py-1 rounded">
+          <div className="absolute top-2 left-2 bg-green-400 text-white text-xs font-bold px-2 py-1 rounded">
             {calculateDiscount()}
           </div>
         )}
