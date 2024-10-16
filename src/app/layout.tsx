@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import NextQueryProvider from "@/components/nextqueryprovider/NextQueryProvider";
 
 export const metadata: Metadata = {
   title: "3legant",
@@ -13,10 +14,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-       className={`font-Poppins antialiased`}
-      >
-        {children}
+      <body className={`font-Poppins antialiased`}>
+        <NextQueryProvider>{children}</NextQueryProvider>
       </body>
     </html>
   );
