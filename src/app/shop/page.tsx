@@ -1,3 +1,4 @@
+import Footer from '@/components/common/Footer'
 import Navbar from '@/components/common/Navbar'
 import ShopGridSection from '@/components/shopgridsection/ShopGridSection'
 import ShopUpperSection from '@/components/shopuppersection/ShopUpperSection'
@@ -9,6 +10,7 @@ const page = () => {
         <Navbar/>
         <ShopUpperSection/>
         <ShopGridSection/>
+        <Footer/>
     </div>
   )
 }

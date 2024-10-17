@@ -19,7 +19,7 @@ const ProductCard = ({ product }: Props) => {
   };
 
   const handleWishlistToggle = () => {
-    setIsWishlisted((prev) => !prev);
+    setIsWishlisted((prev) => !prev); 
   };
 
   const calculateDiscount = () => {
@@ -31,7 +31,10 @@ const ProductCard = ({ product }: Props) => {
   };
 
   return (
-    <div className="relative border border-gray-200 rounded-sm overflow-hidden shadow-sm group cursor-pointer">
+    <div
+      className="relative border border-gray-200 rounded-sm overflow-hidden shadow-sm group cursor-pointer"
+      onClick={handleClick}
+    >
       <div className="relative w-full md:w-auto">
         <Image
           src={product.mainImage}
@@ -39,7 +42,6 @@ const ProductCard = ({ product }: Props) => {
           width={200}
           height={200}
           className="w-full h-72 object-cover bg-gray-100 p-6"
-          onClick={handleClick}
         />
         <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex justify-center items-end transition-opacity duration-300 p-4">
           <Button className="hover:border-2 focus:border-white font-semibold py-2 px-14 rounded-sm">
@@ -50,13 +52,13 @@ const ProductCard = ({ product }: Props) => {
         <div className="absolute top-2 right-2">
           <Heart
             size={24}
-            fill={isWishlisted ? "red" : "none"}
-            stroke={isWishlisted ? "red" : "black"}
+            fill={isWishlisted ? "red" : "none"} 
+            stroke={isWishlisted ? "red" : "black"} 
             className={`${
               isWishlisted ? "text-red-500" : "text-gray-300"
-            } bg-white rounded-full p-1 shadow-lg`}
+            } bg-white rounded-full p-1 shadow-lg`} 
             onClick={(e) => {
-              e.stopPropagation();
+              e.stopPropagation(); 
               handleWishlistToggle();
             }}
           />
@@ -85,17 +87,12 @@ const ProductCard = ({ product }: Props) => {
           ))}
         </div>
 
-        <Typography
-          variant="h2"
-          className="text-base font-medium mb-1 text-start line-clamp-1"
-        >
+        <Typography variant="h2" className="text-base font-medium mb-1 text-start line-clamp-1">
           {product.name}
         </Typography>
 
         <div className="flex justify-start items-end space-x-2 text-xs md:text-sm">
-          <Typography variant="span" className="text-black font-medium">
-            ${product.price}
-          </Typography>
+          <Typography variant="span" className="text-black font-medium">${product.price}</Typography>
           {product.originalPrice && (
             <Typography variant="span" className="text-gray-400 line-through">
               ${product.originalPrice}
