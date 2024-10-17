@@ -1,12 +1,12 @@
 import React from "react";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from "../ui/breadcrumb";
 import Typography from "../common/Typography";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbSeparator,
+  } from "../ui/breadcrumb";
 
 const ShopUpperSection = () => {
   return (
@@ -24,10 +24,15 @@ const ShopUpperSection = () => {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <Typography variant="h1" className="text-3xl md:text-5xl lg:text-6xl font-medium text-black mb-4 md:mb-6">
+        <Typography
+          variant="h1"
+          className="text-3xl md:text-5xl lg:text-6xl font-medium text-black mb-4 md:mb-6"
+        >
           Shop
         </Typography>
-        <Typography variant="h2" className="w-[60%] md:text-lg text-xs">Let's design the place you always imagined</Typography>
+        <Typography variant="h2" className="w-[60%] md:text-lg text-xs">
+          Let's design the place you always imagined
+        </Typography>
       </div>
     </section>
   );

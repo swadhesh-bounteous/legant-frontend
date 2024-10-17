@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import { StarIcon } from "lucide-react";
+import { StarIcon, Heart } from "lucide-react"; // Import the Heart icon
 import { ProductApi } from "@/types/ProductApi";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
+import Typography from "./Typography";
 
 type Props = {
   product: ProductApi;
@@ -12,9 +13,14 @@ type Props = {
 
 const ProductCard = ({ product, viewType }: Props) => {
   const router = useRouter();
+  const [isWishlisted, setIsWishlisted] = useState(false);
 
   const handleClick = () => {
-    router.push(`/products/?id=${product.id}`);
+    router.push(`/productdesc/?id=${product.id}`);
+  };
+
+  const handleWishlistToggle = () => {
+    setIsWishlisted((prev) => !prev); 
   };
 
   const calculateDiscount = () => {
@@ -45,6 +51,21 @@ const ProductCard = ({ product, viewType }: Props) => {
             Add to Cart
           </Button>
         </div>
+
+        <div className="absolute top-2 right-2">
+          <Heart
+            size={24}
+            fill={isWishlisted ? "red" : "none"} 
+            stroke={isWishlisted ? "red" : "black"} 
+            className={`${
+              isWishlisted ? "text-red-500" : "text-gray-300"
+            } bg-white rounded-full p-1 shadow-lg`} 
+            onClick={(e) => {
+              e.stopPropagation(); 
+              handleWishlistToggle();
+            }}
+          />
+        </div>
       </div>
 
       <div className="p-4 flex flex-col justify-between w-full">
@@ -69,14 +90,16 @@ const ProductCard = ({ product, viewType }: Props) => {
           ))}
         </div>
 
-        <h2 className="text-base font-medium mb-1 text-start">{product.name}</h2>
+        <h2 className="text-base font-medium mb-1 text-start">
+          {product.name}
+        </h2>
 
         <div className="flex justify-start items-end space-x-2">
-          <span className="text-black font-semibold">${product.price}</span>
+          <Typography variant="span" className="text-black font-semibold">${product.price}</Typography>
           {product.originalPrice && (
-            <span className="text-gray-400 line-through">
+            <Typography variant="span" className="text-gray-400 line-through">
               ${product.originalPrice}
-            </span>
+            </Typography>
           )}
         </div>
       </div>

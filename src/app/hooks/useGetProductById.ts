@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ProductApi } from "@/types/ProductApi";
 
-const fetchProductById = async (id: number): Promise<ProductApi> => {
+const fetchProductById = async (id: string): Promise<ProductApi> => {
   const res = await fetch(`https://localhost:7058/api/products/${id}`);
   
   if (!res.ok) {
@@ -12,7 +12,7 @@ const fetchProductById = async (id: number): Promise<ProductApi> => {
   return data;
 };
 
-const useGetProductById = (id: number) => {
+const useGetProductById = (id: string) => {
   return useQuery({
     queryKey: ['product', id],  
     queryFn: () => fetchProductById(id), 
