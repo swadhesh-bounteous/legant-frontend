@@ -1,64 +1,69 @@
-import React from 'react'
+import React from "react";
+import { Skeleton } from "../ui/skeleton"; // Import the skeleton component from your UI library
 
 const ProductDetailsSkeleton = () => {
   return (
-    <div className="flex flex-col px-4 sm:px-8 md:px-16 space-y-4 animate-pulse">
-        <div className="h-8 md:h-16 bg-gray-300 rounded w-3/4"></div>
-        <div className="h-6 md:h-8 bg-gray-300 rounded w-1/4"></div>
-        <div className="flex items-center space-x-2">
-          <div className="flex space-x-1">
-            {[...Array(5)].map((_, i) => (
-              <span key={i} className="h-6 w-6 bg-gray-300 rounded-full"></span>
-            ))}
-          </div>
-          <div className="h-4 bg-gray-300 rounded w-1/4"></div>
-        </div>
-        <div className="h-6 bg-gray-300 rounded w-full"></div>
-        <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+    <div className="flex flex-col px-8 sm:px-8 md:px-16 space-y-4 py-4">
+      {/* Rating and reviews skeleton */}
+      <div className="flex items-center space-x-2">
+        <Skeleton className="w-24 h-6" /> {/* Rating stars */}
+        <Skeleton className="w-16 h-6" /> {/* Reviews */}
+      </div>
 
-        <div className="flex flex-col items-start space-y-2">
-          <div className="h-4 bg-gray-300 rounded w-1/4"></div>
-          <div className="flex space-x-2">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-8 w-8 bg-gray-300 rounded-md"></div>
-            ))}
-          </div>
-        </div>
+      {/* Product name skeleton */}
+      <Skeleton className="h-8 md:h-10 w-2/3" /> {/* Name */}
 
-        <div className="flex flex-col items-start space-y-2">
-          <div className="h-4 bg-gray-300 rounded w-1/4"></div>
-          <div className="flex space-x-4">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-8 w-8 rounded-full bg-gray-300"></div>
-            ))}
-          </div>
-        </div>
+      {/* Pricing skeleton */}
+      <div className="flex space-x-2">
+        <Skeleton className="w-16 h-8" /> {/* Price */}
+        <Skeleton className="w-12 h-6" /> {/* Original Price */}
+      </div>
 
-        <div className="flex flex-col gap-y-4 md:flex-row md:space-x-4 pb-8">
-          <div className="flex space-x-4 items-center rounded-lg border-gray-400 border-[1px] w-full md:w-auto">
-            <div className="px-3 py-4 text-xl md:text-base w-full md:w-auto bg-gray-300 rounded"></div>
-            <div className="text-center flex-1 h-8 bg-gray-300 rounded"></div>
-            <div className="px-3 py-4 text-xl md:text-base w-full md:w-auto bg-gray-300 rounded"></div>
-          </div>
-          <div className="h-10 w-full md:w-auto bg-gray-300 rounded"></div>
-          <div className="h-10 w-full md:w-auto bg-gray-300 rounded"></div>
-        </div>
+      {/* Description skeleton */}
+      <Skeleton className="w-full h-16" /> {/* Description */}
 
-        <div className="border-t border-gray-300 flex flex-col gap-3 text-gray-600 font-light pt-8 text-sm">
-          <div className="h-4 bg-gray-300 rounded w-1/4"></div>
-          <div className="h-4 bg-gray-300 rounded w-1/4"></div>
-          <div className="h-4 bg-gray-300 rounded w-1/4"></div>
-          <div className="flex space-x-4">
-            <span className="h-4 bg-gray-300 rounded w-1/4"></span>
-            <div className="flex space-x-4">
-              <div className="h-8 w-8 bg-gray-300 rounded-full"></div>
-              <div className="h-8 w-8 bg-gray-300 rounded-full"></div>
-              <div className="h-8 w-8 bg-gray-300 rounded-full"></div>
-            </div>
-          </div>
+      {/* Size selection skeleton */}
+      <div className="flex flex-col items-start space-y-2">
+        <Skeleton className="w-16 h-4" /> {/* Size label */}
+        <div className="flex space-x-2">
+          <Skeleton className="w-12 h-12" /> {/* Size button 1 */}
+          <Skeleton className="w-12 h-12" /> {/* Size button 2 */}
+          <Skeleton className="w-12 h-12" /> {/* Size button 3 */}
         </div>
       </div>
-  )
-}
 
-export default ProductDetailsSkeleton
+      {/* Color selection skeleton */}
+      <div className="flex flex-col items-start space-y-2">
+        <Skeleton className="w-24 h-4" /> {/* Color label */}
+        <div className="flex space-x-4">
+          <Skeleton className="w-8 h-8 rounded-full" /> {/* Color circle 1 */}
+          <Skeleton className="w-8 h-8 rounded-full" /> {/* Color circle 2 */}
+          <Skeleton className="w-8 h-8 rounded-full" /> {/* Color circle 3 */}
+        </div>
+      </div>
+
+      {/* Quantity selection skeleton */}
+      <div className="flex flex-col gap-y-4 md:flex-row md:space-x-4 pb-2">
+        <Skeleton className="w-full md:w-40 h-12" /> {/* Quantity selector */}
+        <Skeleton className="w-full h-12" /> {/* Wishlist button */}
+      </div>
+
+      {/* Add to Cart button skeleton */}
+      <Skeleton className="w-full h-12" /> {/* Add to Cart */}
+
+      {/* Additional info skeleton */}
+      <div className="border-t border-gray-300 flex flex-col gap-3 text-gray-600 font-light pt-8 text-sm">
+        <div className="flex justify-start gap-x-3">
+          <Skeleton className="w-16 h-4" /> {/* SKU label */}
+          <Skeleton className="w-24 h-4" /> {/* SKU value */}
+        </div>
+        <div className="flex justify-start gap-x-3">
+          <Skeleton className="w-20 h-4" /> {/* Category label */}
+          <Skeleton className="w-32 h-4" /> {/* Category value */}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductDetailsSkeleton;

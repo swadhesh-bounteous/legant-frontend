@@ -12,9 +12,23 @@ import {
 import { ChevronDown, Grid, List } from "lucide-react";
 import ViewToggleButton from "../common/ViewToggleButton";
 import Typography from "../common/Typography";
+import ProductListComp from "../common/ProductListComp";
 
-const categories = ["All", "Breguet", "Rolex", "Omega", "Audemars Piguet","Rado"];
-const prices = ["All Price", "0 - 10000", "10001 - 50000", "50001 - 100000","100001-500000"];
+const categories = [
+  "All",
+  "Breguet",
+  "Rolex",
+  "Omega",
+  "Audemars Piguet",
+  "Rado",
+];
+const prices = [
+  "All Price",
+  "0 - 10000",
+  "10001 - 50000",
+  "50001 - 100000",
+  "100001-500000",
+];
 const sortOptions = ["Price: Low to High", "Price: High to Low"];
 
 const ShopGridSection = () => {
@@ -57,8 +71,8 @@ const ShopGridSection = () => {
   return (
     <>
       <section className="flex flex-col md:flex-row justify-between w-[90%] mx-auto py-4 space-y-4 md:space-y-0">
-        <div className="flex flex-col md:flex-row items-start md:items-center space-y-4 md:space-y-0 md:space-x-4">
-          <div>
+        <div className="flex flex-col md:flex-row items-start md:items-center space-y-4 md:space-y-0 md:space-x-4 w-full">
+          <div className="w-full md:w-auto">
             <Typography variant="span" className="text-xs uppercase">
               Categories
             </Typography>
@@ -80,7 +94,7 @@ const ShopGridSection = () => {
             </DropdownMenu>
           </div>
 
-          <div>
+          <div className="w-full md:w-auto">
             <Typography variant="span" className="text-xs uppercase">
               Price
             </Typography>
@@ -103,8 +117,8 @@ const ShopGridSection = () => {
           </div>
         </div>
 
-        <div className="flex justify-center items-center space-x-4">
-          <div>
+        <div className="flex justify-between items-center space-x-4 w-full md:w-auto">
+          <div className="w-full md:w-auto">
             <Typography variant="span" className="text-xs uppercase">
               Sort By
             </Typography>
@@ -125,7 +139,7 @@ const ShopGridSection = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="flex mt-2">
+          <div className="flex space-x-2 mt-6">
             <ViewToggleButton
               viewType="grid"
               currentViewType={viewType}
@@ -141,12 +155,27 @@ const ShopGridSection = () => {
           </div>
         </div>
       </section>
+
       <section className="px-4 md:px-12 lg:px-24 py-12">
-        <div className={`grid grid-cols-1 ${viewType === "grid" ? "md:grid-cols-2 lg:grid-cols-5" : ""} gap-y-4 gap-x-4`}>
-          {filteredProducts().map((product) => (
-            <ProductCard key={product.id} product={product} viewType={viewType} />
-          ))}
-        </div>
+        {viewType === "grid" ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            {filteredProducts().map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {filteredProducts().map((product) => (
+              <ProductListComp
+                key={product.id}
+                product={product}
+              />
+            ))}
+          </div>
+        )}
       </section>
     </>
   );

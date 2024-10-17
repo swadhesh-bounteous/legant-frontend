@@ -17,7 +17,7 @@ type Props = {
 const BreadCrumbNavigator = ({product, isLoading}: Props) => {
   const router = useRouter();
   return (
-    <Breadcrumb className="text-gray-800 text-xs md:text-sm mt-4 mx-36">
+    <Breadcrumb className="text-gray-800 text-xs md:text-sm mt-4 mx-16 md:mx-36 line-clamp-1">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="/" onClick={() => router.push("/")}>Home</BreadcrumbLink>
