@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
@@ -7,18 +7,27 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { signInSchema } from "@/types/SignInSchema";
 import Typography from "@/components/common/Typography";
+import { useLogin } from "../hooks/useLogin";
 
 type SignInFormData = z.infer<typeof signInSchema>;
 
 const SigninForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { mutate: login } = useLogin();
+  const router = useRouter();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = (data: SignInFormData) => {
+    login(data, {
+      onSuccess: () => {
+        router.push("/shop");
+      },
+      onError: (error) => {
+        console.error("Login failed:", error);
+      },
+    });
   };
 
   const {
@@ -31,10 +40,7 @@ const SigninForm = () => {
 
   return (
     <div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 md:space-y-8"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 md:space-y-8">
         <div>
           <Label htmlFor="email">Email address</Label>
           <Input
@@ -45,7 +51,9 @@ const SigninForm = () => {
             placeholder="example@gmail.com"
           />
           {errors.email && (
-            <Typography variant="p" className="text-red-600 py-2 text-xs">{errors.email.message}</Typography>
+            <Typography variant="p" className="text-red-600 py-2 text-xs">
+              {errors.email.message}
+            </Typography>
           )}
         </div>
         <div className="relative">
@@ -56,7 +64,8 @@ const SigninForm = () => {
             {...register("password")}
             className="mt-1 w-full"
           />
-          <Typography variant="span"
+          <Typography
+            variant="span"
             onClick={() => setShowPassword(!showPassword)}
             className="absolute right-2 top-[2.5rem] cursor-pointer text-gray-500"
           >

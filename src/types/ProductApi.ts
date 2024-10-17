@@ -1,5 +1,5 @@
 export type ProductApi = {
-    id: number;
+    id: string;
     createdAt: string|null; 
     name: string;
     description: string;

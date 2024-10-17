@@ -1,16 +1,27 @@
+// src/components/Navbar/Navbar.tsx
+
 "use client";
 import React, { useState } from "react";
-import { Drawer, DrawerContent, DrawerOverlay } from "../ui/drawer";
 import Link from "next/link";
-import { UserIcon, Search, Heart, ShoppingBag, MenuIcon, X } from "lucide-react";
+import { UserIcon, Search, Heart, ShoppingBag, MenuIcon } from "lucide-react";
 import Typography from "@/components/common/Typography";
+import CustomDrawer from "./CustomDrawer"; // Import CustomDrawer
+import CartDrawer from "./CartDrawer"; // Import CartDrawer
+import { useCartStore } from "@/store/useCartStore";
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
+
+  const toggleCartDrawer = () => {
+    setIsCartDrawerOpen(!isCartDrawerOpen);
+  };
+
+  const cartItems = useCartStore((state) => state.cartItems); 
 
   return (
     <header className="bg-white">
@@ -49,50 +60,40 @@ const Navbar = () => {
           <Link href="/wishlist">
             <Heart className="w-5 h-5" />
           </Link>
-          <Link href="/cart">
+          <button onClick={toggleCartDrawer} className="relative">
             <ShoppingBag className="w-5 h-5" />
-          </Link>
+            <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs px-1">
+              {cartItems.length > 0 && cartItems.length}
+            </span>
+          </button>
         </div>
 
         <div className="lg:hidden flex gap-x-4 items-center">
           <Link href="/wishlist">
             <Heart className="w-5 h-5" />
           </Link>
-          <Link href="/cart">
+          <button onClick={toggleCartDrawer} className="relative">
             <ShoppingBag className="w-5 h-5" />
-          </Link>
+            <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs px-1">
+              {cartItems.length > 0 && cartItems.length}
+            </span>
+          </button>
         </div>
       </nav>
 
-      <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <div className="p-6">
-            <ul className="flex flex-col gap-y-6 font-medium items-start text-md">
-              <li>
-                <Link href="/" onClick={toggleDrawer}>
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/shop" onClick={toggleDrawer}>
-                  Shop
-                </Link>
-              </li>
-              <li>
-                <Link href="/product" onClick={toggleDrawer}>
-                  Product
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" onClick={toggleDrawer}>
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </DrawerContent>
-      </Drawer>
+      {(isDrawerOpen || isCartDrawerOpen) && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={() => {
+            setIsDrawerOpen(false);
+            setIsCartDrawerOpen(false);
+          }}
+        />
+      )}
+
+      {/* Use the CustomDrawer and CartDrawer components */}
+      <CustomDrawer isOpen={isDrawerOpen} onClose={toggleDrawer} />
+      <CartDrawer isOpen={isCartDrawerOpen} onClose={toggleCartDrawer} />
     </header>
   );
 };

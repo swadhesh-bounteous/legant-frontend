@@ -2,7 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import { ProductApi } from "@/types/ProductApi";
 
 const fetchProductById = async (id: string): Promise<ProductApi> => {
-  const res = await fetch(`https://localhost:7058/api/products/${id}`);
+  const jwtToken = localStorage.getItem('jwtToken');
+  const res = await fetch(`https://localhost:7058/api/products/${id}`, {
+    method: 'GET', 
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwtToken}` 
+    }
+  });
   
   if (!res.ok) {
     throw new Error('Error fetching product');

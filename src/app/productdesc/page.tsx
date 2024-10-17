@@ -31,9 +31,9 @@ const ProductContent = () => {
       <BreadCrumbNavigator product={product as ProductApi} isLoading={isLoading}/>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 my-8 w-[90%] mx-auto">
         <ToggleImageSection images={(product as ProductApi)?.images} isLoading={isLoading} isSuccess={isSuccess} />
-        <ProductDetails product={product as ProductApi} isLoading={isLoading}/>
+        <ProductDetails product={product as ProductApi} isLoading={isLoading} />
       </div>
-      <ProductInfo product={product as ProductApi} isLoading={isLoading}/>
+      <ProductInfo product={product as ProductApi} isLoading={isLoading} />
       <RelatedProducts category={(product as ProductApi)?.category}/>
       <Footer />
     </div>

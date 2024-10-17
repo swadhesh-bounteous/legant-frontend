@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import { StarIcon, Heart } from "lucide-react"; // Import the Heart icon
+import { StarIcon, Heart } from "lucide-react"; 
 import { ProductApi } from "@/types/ProductApi";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import Typography from "./Typography";
+import { useCartStore } from "@/store/useCartStore";
 
 type Props = {
   product: ProductApi;
@@ -20,6 +21,14 @@ const ProductCard = ({ product }: Props) => {
 
   const handleWishlistToggle = () => {
     setIsWishlisted((prev) => !prev); 
+  };
+
+  // Access the addToCart function from the cart store
+  const addToCart = useCartStore((state) => state.addToCart);
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent the click from propagating to the parent div
+    addToCart(product); // Add the product to the cart
   };
 
   const calculateDiscount = () => {
@@ -44,7 +53,10 @@ const ProductCard = ({ product }: Props) => {
           className="w-full h-72 object-cover bg-gray-100 p-6"
         />
         <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex justify-center items-end transition-opacity duration-300 p-4">
-          <Button className="hover:border-2 focus:border-white font-semibold py-2 px-14 rounded-sm">
+          <Button
+            className="hover:border-2 focus:border-white font-semibold py-2 px-14 rounded-sm"
+            onClick={handleAddToCart}
+          >
             Add to Cart
           </Button>
         </div>

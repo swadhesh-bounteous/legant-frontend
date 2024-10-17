@@ -68,6 +68,7 @@ const ShopGridSection = () => {
     return filtered;
   };
 
+
   return (
     <>
       <section className="flex flex-col md:flex-row justify-between w-[90%] mx-auto py-4 space-y-4 md:space-y-0">
