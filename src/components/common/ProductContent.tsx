@@ -1,23 +1,15 @@
 "use client";
-import React, { Suspense } from "react";
+import React from "react";
 import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import ProductDetails from "@/components/productdetails/ProductDetails";
 import ProductInfo from "@/components/productinfo/ProductInfo";
 import ToggleImageSection from "@/components/toggleimagesection/ToggleImageSection";
-import useGetProductById from "../../hooks/useGetProductById";
+import useGetProductById from "@/hooks/useGetProductById";
 import { ProductApi } from "@/types/ProductApi";
 import RelatedProducts from "@/components/relatedproducts/RelatedProducts";
 import BreadCrumbNavigator from "@/components/common/BreadCrumbNavigator";
-
-const ProductPage = () => {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ProductContent />
-    </Suspense>
-  );
-};
 
 const ProductContent = () => {
   const SearchParams = useSearchParams();
@@ -47,4 +39,4 @@ const ProductContent = () => {
   );
 };
 
-export default ProductPage;
+export default ProductContent;

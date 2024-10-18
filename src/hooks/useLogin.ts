@@ -6,6 +6,7 @@ const login = async (data: { email: string; password: string }) => {
   return response.data; 
 };
 
+
 export const useLogin = () => {
   return useMutation({
     mutationFn: login,
@@ -13,6 +14,9 @@ export const useLogin = () => {
       console.log('Login successful:', data);
       if (data.token) {
         localStorage.setItem('jwtToken', data.token);
+      }
+      if (data.userId) {
+        localStorage.setItem('userId', data.userId); 
       }
     },
     onError: (error) => {

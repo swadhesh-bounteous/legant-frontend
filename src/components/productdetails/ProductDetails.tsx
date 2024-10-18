@@ -29,9 +29,7 @@ const ProductDetails = ({ product, isLoading }: Props) => {
   const handleColorSelect = (color: string) => setSelectedColor(color);
 
   if (isLoading) {
-    return (
-      <ProductDetailsSkeleton/>
-    );
+    return <ProductDetailsSkeleton />;
   }
 
   return (
@@ -44,11 +42,15 @@ const ProductDetails = ({ product, isLoading }: Props) => {
             </Typography>
           ))}
         </div>
-        <Typography variant="p" className="text-sm">{product.reviews.length} Reviews</Typography>
+        <Typography variant="p" className="text-sm">
+          {product.reviews.length} Reviews
+        </Typography>
       </div>
       <h1 className="text-2xl md:text-4xl font-medium">{product.name}</h1>
       <div className="flex justify-start items-end space-x-2 text-lg">
-        <Typography variant="span" className="text-black font-medium">${product.price}</Typography>
+        <Typography variant="span" className="text-black font-medium">
+          ${product.price}
+        </Typography>
         {product.originalPrice && (
           <Typography variant="span" className="text-gray-400 line-through">
             ${product.originalPrice}
@@ -56,10 +58,14 @@ const ProductDetails = ({ product, isLoading }: Props) => {
         )}
       </div>
 
-      <Typography variant="p" className="font-normal text-sm">{product.description}</Typography>
+      <Typography variant="p" className="font-normal text-sm">
+        {product.description}
+      </Typography>
 
       <div className="flex flex-col items-start">
-        <Typography variant="span" className="mb-2">Size</Typography>
+        <Typography variant="span" className="mb-2">
+          Size
+        </Typography>
         <div className="flex space-x-2">
           {product.sizes.map((size, index) => (
             <Button
@@ -77,7 +83,9 @@ const ProductDetails = ({ product, isLoading }: Props) => {
       </div>
 
       <div className="flex flex-col items-start">
-        <Typography variant="p" className="mb-2">Choose Color{" >"}</Typography>
+        <Typography variant="p" className="mb-2">
+          Choose Color{" >"}
+        </Typography>
         <Typography variant="span">{selectedColor}</Typography>
         <div className="flex space-x-4">
           {product.colors.map((color, index) => (
@@ -96,15 +104,17 @@ const ProductDetails = ({ product, isLoading }: Props) => {
       <div className="flex flex-col gap-y-4 md:flex-row md:space-x-4 pb-2">
         <div className="flex space-x-4 items-center rounded-lg bg-gray-200 w-full md:w-40">
           <button
-            className="flex-1 px-3 py-2 text-base" 
+            className="flex-1 px-3 py-2 text-base"
             onClick={decrementQuantity}
             aria-label="Decrease quantity"
           >
             -
           </button>
-          <Typography variant="p" className="text-center flex-1">{quantity}</Typography>
+          <Typography variant="p" className="text-center flex-1">
+            {quantity}
+          </Typography>
           <button
-            className="flex-1 px-3 py-2 text-base" 
+            className="flex-1 px-3 py-2 text-base"
             onClick={incrementQuantity}
             aria-label="Increase quantity"
           >

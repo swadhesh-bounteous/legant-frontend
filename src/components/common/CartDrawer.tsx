@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { X, Trash2 } from "lucide-react";
 import Typography from "@/components/common/Typography";
-import { useCartStore } from "@/store/useCartStore";
 import Image from "next/image";
+import useGetUserCartItems from "@/hooks/useGetUserCartItems";
+import { CartItemResponse } from "@/types/CartItemResponse";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -11,39 +12,76 @@ interface CartDrawerProps {
 }
 
 const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
-  const { cartItems } = useCartStore((state) => state); 
-  const [cart, setCart] = useState(cartItems);
-  
+  const { data: cartData, isLoading, error } = useGetUserCartItems();
+  console.log("Cart data",cartData);
+  const [cart, setCart] = useState<CartItemResponse[]>([]);
+
   useEffect(() => {
-    setCart(cartItems); 
-  }, [cartItems]);
+    if (cartData) {
+      setCart(cartData);
+    }
+  }, [cartData]);
 
-  const handleIncrement = (id: string) => {
-    const updatedCart = cart.map(item => 
-      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+  const handleIncrement = (cartItemId: string) => {
+    const updatedCart = cart.map((item) =>
+      item.cartItemId === cartItemId
+        ? {
+            ...item,
+            products: item.products.map((product) => ({
+              ...product,
+              productQuantity: product.productQuantity + 1,
+            })),
+          }
+        : item
     );
     setCart(updatedCart);
   };
 
-  const handleDecrement = (id: string) => {
-    const updatedCart = cart.map(item => 
-      item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
+  const handleDecrement = (cartItemId: string) => {
+    const updatedCart = cart.map((item) =>
+      item.cartItemId === cartItemId
+        ? {
+            ...item,
+            products: item.products.map((product) =>
+              product.productQuantity > 1
+                ? { ...product, productQuantity: product.productQuantity - 1 }
+                : product
+            ),
+          }
+        : item
     );
     setCart(updatedCart);
   };
 
-  const handleDelete = (id: string) => {
-    const updatedCart = cart.filter(item => item.id !== id);
+  const handleDelete = (cartItemId: string) => {
+    const updatedCart = cart.filter((item) => item.cartItemId !== cartItemId);
     setCart(updatedCart);
   };
 
   const calculateSubtotal = () => {
-    return cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+    return cart
+      .reduce((sum, item) => sum + item.products[0].productPrice, 0)
+      .toFixed(2);
   };
 
   const calculateTotal = () => {
-    return cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
+    return cart
+      .reduce(
+        (sum, item) =>
+          sum +
+          item.products[0].productPrice * item.products[0].productQuantity,
+        0
+      )
+      .toFixed(2);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading cart items.</div>;
+  }
 
   return (
     <div
@@ -53,39 +91,49 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
     >
       <div className="flex flex-col h-full">
         <div className="p-6 flex justify-between items-center">
-          <Typography variant="h6" className="text-2xl font-medium">Cart</Typography>
+          <Typography variant="h6" className="text-2xl font-medium">
+            Cart
+          </Typography>
           <button onClick={onClose}>
             <X className="w-6 h-6" />
           </button>
         </div>
-        <div className="flex-1 overflow-y-auto no-scrollbar border-t-2"> 
+        <div className="flex-1 overflow-y-auto no-scrollbar border-t-2">
           {cart.length > 0 ? (
             <>
               {cart.map((item) => (
-                <div key={item.id} className="flex items-center justify-between mt-4">
-                  <Image 
-                    src={item.mainImage} 
-                    alt={item.name} 
-                    className="w-16 h-24 object-cover bg-gray-100 p-1 rounded-md" 
-                    width={64} 
+                <div
+                  key={item.cartItemId}
+                  className="flex items-center justify-between mt-4"
+                >
+                  <Image
+                    src={item.products[0].productImage}
+                    alt={item.products[0].productName}
+                    className="w-16 h-24 object-cover bg-gray-100 p-1 rounded-md"
+                    width={64}
                     height={64}
                   />
                   <div className="flex-1 ml-4 border-b-[1px] border-gray-300 py-4">
-                    <Typography variant="span" className="text-sm line-clamp-1">{item.name}</Typography>
-                    <Typography variant="span" className="text-sm text-gray-500 line-clamp-1">
-                      Colors: {item.colors.join(", ")}
+                    <Typography variant="span" className="text-sm line-clamp-1">
+                      {item.products[0].productName}
                     </Typography>
                     <Typography variant="span" className="text-xs">
-                      Price: ${item.price.toFixed(2)}
+                      Price: ${item.products[0].productPrice.toFixed(2)}
                     </Typography>
                     <div className="flex items-center mt-2 border-[1px] border-black px-4 py-2 rounded-md w-fit text-xs">
-                      <button onClick={() => handleDecrement(item.id)}>−</button>
-                      <Typography variant="span" className="mx-4">{item.quantity}</Typography>
-                      <button onClick={() => handleIncrement(item.id)}>+</button>
+                      <button onClick={() => handleDecrement(item.cartItemId)}>
+                        −
+                      </button>
+                      <Typography variant="span" className="mx-4">
+                        {item.products[0].productQuantity}
+                      </Typography>
+                      <button onClick={() => handleIncrement(item.cartItemId)}>
+                        +
+                      </button>
                     </div>
                   </div>
                   <div className="flex flex-col">
-                    <button onClick={() => handleDelete(item.id)}>
+                    <button onClick={() => handleDelete(item.cartItemId)}>
                       <Trash2 className="w-5 h-5 text-red-500" />
                     </button>
                   </div>

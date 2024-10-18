@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import ProductCard from "../common/ProductCard";
-import useGetProducts from "@/app/hooks/useGetProducts";
+import useGetProducts from "@/hooks/useGetProducts";
 import { ProductApi } from "@/types/ProductApi";
 import {
   DropdownMenu,
@@ -67,7 +67,6 @@ const ShopGridSection = () => {
 
     return filtered;
   };
-
 
   return (
     <>
@@ -161,19 +160,13 @@ const ShopGridSection = () => {
         {viewType === "grid" ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             {filteredProducts().map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-              />
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filteredProducts().map((product) => (
-              <ProductListComp
-                key={product.id}
-                product={product}
-              />
+              <ProductListComp key={product.id} product={product} />
             ))}
           </div>
         )}

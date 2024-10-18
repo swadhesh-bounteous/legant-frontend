@@ -10,9 +10,7 @@ type Props = {
 };
 
 const SkeletonProductInfo = () => {
-  return (
-    <ProductInfoSkeleton/>
-  );
+  return <ProductInfoSkeleton />;
 };
 
 const ProductInfo = ({ product, isLoading }: Props) => {
@@ -24,8 +22,8 @@ const ProductInfo = ({ product, isLoading }: Props) => {
 
     setTimeout(() => {
       setActiveTab(tab);
-      setFadeIn(true); 
-    }, 300); 
+      setFadeIn(true);
+    }, 300);
   };
 
   if (isLoading) {
@@ -68,10 +66,12 @@ const ProductInfo = ({ product, isLoading }: Props) => {
           fadeIn ? "opacity-100" : "opacity-0"
         }`}
       >
-
         {activeTab === "additionalInfo" && (
           <div className="w-[80%] mx-auto">
-            <Typography variant="p" className="text-xs md:text-sm mt-2 text-gray-500">
+            <Typography
+              variant="p"
+              className="text-xs md:text-sm mt-2 text-gray-500"
+            >
               {product.additionalInfo}
             </Typography>
           </div>
@@ -95,16 +95,22 @@ const ProductInfo = ({ product, isLoading }: Props) => {
                           {review.user}
                         </h4>
                         <div className="flex">
-                          {[...Array(Math.floor(review.rating))].map(
-                            (_, i) => (
-                              <Typography variant="span" key={i} className="text-yellow-400">
-                                ★
-                              </Typography>
-                            )
-                          )}
+                          {[...Array(Math.floor(review.rating))].map((_, i) => (
+                            <Typography
+                              variant="span"
+                              key={i}
+                              className="text-yellow-400"
+                            >
+                              ★
+                            </Typography>
+                          ))}
                           {[...Array(5 - Math.floor(review.rating))].map(
                             (_, i) => (
-                              <Typography variant="span" key={i} className="text-gray-300">
+                              <Typography
+                                variant="span"
+                                key={i}
+                                className="text-gray-300"
+                              >
                                 ★
                               </Typography>
                             )
@@ -112,14 +118,19 @@ const ProductInfo = ({ product, isLoading }: Props) => {
                         </div>
                       </div>
                     </div>
-                    <Typography variant="p" className="mt-4 text-gray-600 text-sm md:text-base">
+                    <Typography
+                      variant="p"
+                      className="mt-4 text-gray-600 text-sm md:text-base"
+                    >
                       {review.comment}
                     </Typography>
                   </div>
                 ))}
               </div>
             ) : (
-              <Typography variant="p" className="text-gray-500">No reviews yet. Be the first to review!</Typography>
+              <Typography variant="p" className="text-gray-500">
+                No reviews yet. Be the first to review!
+              </Typography>
             )}
           </div>
         )}

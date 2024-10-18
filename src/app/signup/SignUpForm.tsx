@@ -11,6 +11,8 @@ import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { signUpSchema } from "@/types/SignUpSchema";
 import Typography from "@/components/common/Typography";
+import { useRegister } from "../../hooks/useRegister";
+import { useRouter } from "next/navigation";
 
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
@@ -25,8 +27,18 @@ const SignUpForm = () => {
     resolver: zodResolver(signUpSchema),
   });
 
+  const { mutate: registerFn } = useRegister();
+  const router = useRouter();
+
   const onSubmit = (data: SignUpFormData) => {
-    console.log(data);
+    registerFn(data, {
+      onSuccess: () => {
+        router.push("/signin");
+      },
+      onError: (error) => {
+        console.error("Registration failed:", error);
+      },
+    });
   };
 
   return (
@@ -44,7 +56,9 @@ const SignUpForm = () => {
             className="mt-1 w-full"
           />
           {errors.name && (
-            <Typography variant="p" className="text-red-600 py-2 text-xs">{errors.name.message}</Typography>
+            <Typography variant="p" className="text-red-600 py-2 text-xs">
+              {errors.name.message}
+            </Typography>
           )}
         </div>
 
@@ -58,7 +72,9 @@ const SignUpForm = () => {
             placeholder="example@gmail.com"
           />
           {errors.email && (
-            <Typography variant="p" className="text-red-600 py-2 text-xs">{errors.email.message}</Typography>
+            <Typography variant="p" className="text-red-600 py-2 text-xs">
+              {errors.email.message}
+            </Typography>
           )}
         </div>
 
@@ -70,7 +86,8 @@ const SignUpForm = () => {
             {...register("password")}
             className="mt-1 w-full"
           />
-          <Typography variant="span"
+          <Typography
+            variant="span"
             onClick={() => setShowPassword(!showPassword)}
             className="absolute right-2 top-[2.5rem] cursor-pointer text-gray-500"
           >

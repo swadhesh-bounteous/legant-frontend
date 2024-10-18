@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist, PersistStorage, StorageValue } from "zustand/middleware"; 
+import { persist, PersistStorage, StorageValue } from "zustand/middleware";
 import { ProductApi } from "@/types/ProductApi";
 
 type CartItem = ProductApi & {
@@ -17,15 +17,18 @@ const customStorage: PersistStorage<CartStore> = {
   getItem: async (name: string): Promise<StorageValue<CartStore> | null> => {
     const item = localStorage.getItem(name);
     if (item) {
-      return JSON.parse(item) as StorageValue<CartStore>; 
+      return JSON.parse(item) as StorageValue<CartStore>;
     }
-    return null; 
+    return null;
   },
-  setItem: async (name: string, value: StorageValue<CartStore>): Promise<void> => {
-    localStorage.setItem(name, JSON.stringify(value)); 
+  setItem: async (
+    name: string,
+    value: StorageValue<CartStore>
+  ): Promise<void> => {
+    localStorage.setItem(name, JSON.stringify(value));
   },
   removeItem: async (name: string): Promise<void> => {
-    localStorage.removeItem(name); 
+    localStorage.removeItem(name);
   },
 };
 
@@ -45,7 +48,9 @@ export const useCartStore = create<CartStore>()(
               ),
             };
           }
-          return { cartItems: [...state.cartItems, { ...product, quantity: 1 }] };
+          return {
+            cartItems: [...state.cartItems, { ...product, quantity: 1 }],
+          };
         }),
       removeFromCart: (id: string) =>
         set((state) => ({
@@ -54,7 +59,7 @@ export const useCartStore = create<CartStore>()(
       clearCart: () => set({ cartItems: [] }),
     }),
     {
-      name: "cart-storage", 
+      name: "cart-storage",
       storage: customStorage,
     }
   )

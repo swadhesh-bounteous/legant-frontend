@@ -1,4 +1,4 @@
-import useGetProductByCategory from "@/app/hooks/useGetProductByCategory";
+import useGetProductByCategory from "@/hooks/useGetProductByCategory";
 import React, { useState } from "react";
 import ProductCard from "../common/ProductCard";
 import { ProductApi } from "@/types/ProductApi";
@@ -15,9 +15,9 @@ const RelatedProducts = ({ category }: Props) => {
     isError,
   } = useGetProductByCategory(category);
 
-  const [visibleCount, setVisibleCount] = useState(4); 
+  const [visibleCount, setVisibleCount] = useState(4);
   const showMoreProducts = () => {
-    setVisibleCount((prevCount) => prevCount + 4); 
+    setVisibleCount((prevCount) => prevCount + 4);
   };
 
   if (isLoading) {
@@ -34,10 +34,15 @@ const RelatedProducts = ({ category }: Props) => {
 
   return (
     <div className="flex flex-col py-6 px-4 md:py-12 ">
-      <Typography variant="span" className="text-lg md:text-2xl font-semibold pb-8 text-center">Related Products</Typography>
+      <Typography
+        variant="span"
+        className="text-lg md:text-2xl font-semibold pb-8 text-center"
+      >
+        Related Products
+      </Typography>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-4 gap-x-8 px-8 md:px-24 py-2">
         {productDetails.slice(0, visibleCount).map((product: ProductApi) => (
-          <ProductCard key={product.id} product={product}/>
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
       {visibleCount < productDetails.length && (

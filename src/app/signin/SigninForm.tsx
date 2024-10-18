@@ -10,7 +10,7 @@ import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import { signInSchema } from "@/types/SignInSchema";
 import Typography from "@/components/common/Typography";
-import { useLogin } from "../hooks/useLogin";
+import { useLogin } from "../../hooks/useLogin";
 
 type SignInFormData = z.infer<typeof signInSchema>;
 
@@ -40,7 +40,10 @@ const SigninForm = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 md:space-y-8">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6 md:space-y-8"
+      >
         <div>
           <Label htmlFor="email">Email address</Label>
           <Input
