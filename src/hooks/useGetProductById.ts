@@ -16,7 +16,7 @@ const fetchProductById = async (id: string): Promise<ProductApi> => {
   }
 
   const data = await res.json();
-  return data;
+  return data || [];
 };
 
 const useGetProductById = (id: string) => {

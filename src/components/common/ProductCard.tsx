@@ -5,7 +5,8 @@ import { ProductApi } from "@/types/ProductApi";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import Typography from "./Typography";
-import { useCartStore } from "@/store/useCartStore";
+import { useAddCartItem } from "@/hooks/useAddCartItem";
+import { AddCartItemRequest } from "@/types/AddCartItemRequest";
 
 type Props = {
   product: ProductApi;
@@ -14,21 +15,33 @@ type Props = {
 const ProductCard = ({ product }: Props) => {
   const router = useRouter();
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const userId = localStorage.getItem("userId");
 
   const handleClick = () => {
-    router.push(`/productdesc/?id=${product.id}`);
+    router.push(`/productdesc/${product.id}`);
   };
 
   const handleWishlistToggle = () => {
     setIsWishlisted((prev) => !prev);
   };
+  
+  if (!userId) {
+    console.error("User ID not found. Please log in.");
+    return; 
+  }
 
-  // Access the addToCart function from the cart store
-  const addToCart = useCartStore((state) => state.addToCart);
+  const { mutate: addToCart } = useAddCartItem(); 
 
   const handleAddToCart = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent the click from propagating to the parent div
-    addToCart(product); // Add the product to the cart
+    e.stopPropagation();
+
+    const addToCartRequest: AddCartItemRequest = {
+      UserId: userId, 
+      ProductId: product.id,
+      Quantity: 1,
+    };
+
+    addToCart(addToCartRequest);
   };
 
   const calculateDiscount = () => {

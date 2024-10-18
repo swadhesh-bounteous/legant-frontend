@@ -1,3 +1,5 @@
+import { UUID } from "crypto";
+
 export interface Product {
   productId: string;
   productName: string;
@@ -7,7 +9,7 @@ export interface Product {
 }
 
 export interface CartItemResponse {
-  cartItemId: string;
+  cartItemId: UUID;
   userId: string;
   products: Product[];
 }

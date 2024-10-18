@@ -1,13 +1,11 @@
-// src/components/Navbar/Navbar.tsx
-
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
 import { UserIcon, Search, Heart, ShoppingBag, MenuIcon } from "lucide-react";
 import Typography from "@/components/common/Typography";
-import CustomDrawer from "./CustomDrawer"; // Import CustomDrawer
-import CartDrawer from "./CartDrawer"; // Import CartDrawer
-import { useCartStore } from "@/store/useCartStore";
+import CustomDrawer from "./CustomDrawer";
+import CartDrawer from "./CartDrawer"; 
+import useGetUserCartItems from "@/hooks/useGetUserCartItems";
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -21,7 +19,14 @@ const Navbar = () => {
     setIsCartDrawerOpen(!isCartDrawerOpen);
   };
 
-  const cartItems = useCartStore((state) => state.cartItems); 
+  const { data: cartData, isLoading, error } = useGetUserCartItems();
+
+  const cartItemCount = cartData
+    ? cartData.reduce(
+        (total, item) => total + item.products[0].productQuantity,
+        0
+      )
+    : 0;
 
   return (
     <header className="bg-white">
@@ -62,9 +67,12 @@ const Navbar = () => {
           </Link>
           <button onClick={toggleCartDrawer} className="relative">
             <ShoppingBag className="w-5 h-5" />
-            <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs px-1">
-              {cartItems.length > 0 && cartItems.length}
-            </span>
+            {/* Display the cart item count */}
+            {cartItemCount > 0 && (
+              <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs px-1">
+                {cartItemCount}
+              </span>
+            )}
           </button>
         </div>
 
@@ -74,9 +82,12 @@ const Navbar = () => {
           </Link>
           <button onClick={toggleCartDrawer} className="relative">
             <ShoppingBag className="w-5 h-5" />
-            <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs px-1">
-              {cartItems.length > 0 && cartItems.length}
-            </span>
+            {/* Display the cart item count */}
+            {cartItemCount > 0 && (
+              <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs px-1">
+                {cartItemCount}
+              </span>
+            )}
           </button>
         </div>
       </nav>

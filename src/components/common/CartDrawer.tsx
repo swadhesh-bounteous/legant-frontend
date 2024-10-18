@@ -5,6 +5,12 @@ import Typography from "@/components/common/Typography";
 import Image from "next/image";
 import useGetUserCartItems from "@/hooks/useGetUserCartItems";
 import { CartItemResponse } from "@/types/CartItemResponse";
+import { useDeleteCartItem } from "@/hooks/useDeleteCartItem"; 
+import { UUID } from "crypto";
+import { useRouter } from "next/navigation";
+import IncrementDecrementButton from "./IncrementDecrementButton";
+import { useCartItemQuantityIncrement } from "@/hooks/useCartItemQuantityIncrement";
+import { useCartItemQuantityDecrement } from "@/hooks/useCartItemQuantityDecrement";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -12,9 +18,12 @@ interface CartDrawerProps {
 }
 
 const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
-  const { data: cartData, isLoading, error } = useGetUserCartItems();
-  console.log("Cart data",cartData);
+  const { data: cartData } = useGetUserCartItems();
+  const { mutate: deleteFromCart } = useDeleteCartItem(); 
+  const { mutate: incrementQuantity } = useCartItemQuantityIncrement();
+  const { mutate: decrementQuantity } = useCartItemQuantityDecrement();
   const [cart, setCart] = useState<CartItemResponse[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     if (cartData) {
@@ -22,40 +31,63 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
     }
   }, [cartData]);
 
-  const handleIncrement = (cartItemId: string) => {
-    const updatedCart = cart.map((item) =>
-      item.cartItemId === cartItemId
-        ? {
-            ...item,
-            products: item.products.map((product) => ({
-              ...product,
-              productQuantity: product.productQuantity + 1,
-            })),
-          }
-        : item
-    );
-    setCart(updatedCart);
+  const handleIncrement = (cartItemId: UUID) => {
+    incrementQuantity(cartItemId, {
+        onSuccess: () => {
+          setCart((prevCart) =>
+            prevCart.map((item) =>
+              item.cartItemId === cartItemId
+                ? {
+                    ...item,
+                    products: item.products.map((product) => ({
+                      ...product,
+                      productQuantity: product.productQuantity + 1,
+                    })),
+                  }
+                : item
+            )
+          );
+          console.log(`Incremented quantity for item ID: ${cartItemId}`);
+        },
+        onError: (error) => {
+          console.error("Failed to increment quantity:", error);
+        },
+      });
   };
 
-  const handleDecrement = (cartItemId: string) => {
-    const updatedCart = cart.map((item) =>
-      item.cartItemId === cartItemId
-        ? {
-            ...item,
-            products: item.products.map((product) =>
-              product.productQuantity > 1
-                ? { ...product, productQuantity: product.productQuantity - 1 }
-                : product
-            ),
-          }
-        : item
-    );
-    setCart(updatedCart);
+  const handleDecrement = (cartItemId: UUID) => {
+    decrementQuantity(cartItemId, {
+        onSuccess: () => {
+          setCart((prevCart) =>
+            prevCart.map((item) =>
+              item.cartItemId === cartItemId
+                ? {
+                    ...item,
+                    products: item.products.map((product) =>
+                      product.productQuantity > 1
+                        ? { ...product, productQuantity: product.productQuantity - 1 }
+                        : product
+                    ),
+                  }
+                : item
+            )
+          );
+          console.log(`Decremented quantity for item ID: ${cartItemId}`);
+        },
+        onError: (error) => {
+          console.error("Failed to decrement quantity:", error);
+        },
+      });
   };
 
-  const handleDelete = (cartItemId: string) => {
-    const updatedCart = cart.filter((item) => item.cartItemId !== cartItemId);
-    setCart(updatedCart);
+  const handleDelete = async (cartItemId: UUID) => {
+    try {
+      await deleteFromCart(cartItemId); 
+      const updatedCart = cart.filter((item) => item.cartItemId !== cartItemId);
+      setCart(updatedCart);
+    } catch (error) {
+      console.error("Failed to delete item from cart:", error);
+    }
   };
 
   const calculateSubtotal = () => {
@@ -75,12 +107,8 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
       .toFixed(2);
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error loading cart items.</div>;
+  const handleCheckout=()=>{
+    router.push('/checkout');
   }
 
   return (
@@ -120,17 +148,11 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                     <Typography variant="span" className="text-xs">
                       Price: ${item.products[0].productPrice.toFixed(2)}
                     </Typography>
-                    <div className="flex items-center mt-2 border-[1px] border-black px-4 py-2 rounded-md w-fit text-xs">
-                      <button onClick={() => handleDecrement(item.cartItemId)}>
-                        −
-                      </button>
-                      <Typography variant="span" className="mx-4">
-                        {item.products[0].productQuantity}
-                      </Typography>
-                      <button onClick={() => handleIncrement(item.cartItemId)}>
-                        +
-                      </button>
-                    </div>
+                    <IncrementDecrementButton
+                      quantity={item.products[0].productQuantity}
+                      handleIncrement={() => handleIncrement(item.cartItemId)}
+                      handleDecrement={() => handleDecrement(item.cartItemId)}
+                    />
                   </div>
                   <div className="flex flex-col">
                     <button onClick={() => handleDelete(item.cartItemId)}>
@@ -144,7 +166,6 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
             <Typography variant="span">Your cart is empty.</Typography>
           )}
         </div>
-        {/* Fixed footer for subtotal, total, and checkout */}
         <div className="p-6 border-t border-gray-300">
           {cart.length > 0 && (
             <>
@@ -156,7 +177,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                 <Typography variant="span">Total:</Typography>
                 <Typography variant="span">${calculateTotal()}</Typography>
               </div>
-              <button className="w-full bg-black text-white py-2 rounded">
+              <button className="w-full bg-black text-white py-2 rounded" onClick={handleCheckout}>
                 Checkout
               </button>
             </>

@@ -1,6 +1,5 @@
-"use client";
+"use client"
 import React from "react";
-import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import ProductDetails from "@/components/productdetails/ProductDetails";
@@ -11,11 +10,13 @@ import { ProductApi } from "@/types/ProductApi";
 import RelatedProducts from "@/components/relatedproducts/RelatedProducts";
 import BreadCrumbNavigator from "@/components/common/BreadCrumbNavigator";
 
-const ProductContent = () => {
-  const SearchParams = useSearchParams();
-  const id = SearchParams.get("id") ?? "id2";
+type ProductContentProps={
+    productId: string
+}
 
-  const { data: product, isLoading, isSuccess } = useGetProductById(id);
+const ProductContent = ({productId}:ProductContentProps) => {
+
+  const { data: product, isLoading, isSuccess } = useGetProductById(productId);
 
   return (
     <div className="flex flex-col">
