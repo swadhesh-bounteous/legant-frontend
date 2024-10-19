@@ -13,6 +13,7 @@ import { ChevronDown, Grid, List } from "lucide-react";
 import ViewToggleButton from "../common/ViewToggleButton";
 import Typography from "../common/Typography";
 import ProductListComp from "../common/ProductListComp";
+import { Slider } from "../ui/slider";
 
 const categories = [
   "All",
@@ -22,56 +23,25 @@ const categories = [
   "Audemars Piguet",
   "Rado",
 ];
-const prices = [
-  "All Price",
-  "0 - 10000",
-  "10001 - 50000",
-  "50001 - 100000",
-  "100001-500000",
-];
 const sortOptions = ["Price: Low to High", "Price: High to Low"];
 
 const ShopGridSection = () => {
   const [sortOrder, setSortOrder] = useState("default");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedPrice, setSelectedPrice] = useState("All Price");
+  const [priceRange, setPriceRange] = useState([0, 200000]);
   const [viewType, setViewType] = useState<"grid" | "list">("grid");
 
-  const { data: productDetails = [] } = useGetProducts();
-
-  const sortedProducts = (products: ProductApi[]) => {
-    const sorted = [...products];
-    if (sortOrder === "Price: Low to High") {
-      sorted.sort((a, b) => a.price - b.price);
-    } else if (sortOrder === "Price: High to Low") {
-      sorted.sort((a, b) => b.price - a.price);
-    }
-    return sorted;
-  };
-
-  const filteredProducts = () => {
-    let filtered = sortedProducts(productDetails);
-
-    if (selectedCategory !== "All") {
-      filtered = filtered.filter(
-        (product) => product.category === selectedCategory
-      );
-    }
-
-    if (selectedPrice !== "All Price") {
-      const [min, max] = selectedPrice.split(" - ").map(Number);
-      filtered = filtered.filter(
-        (product) => product.price >= min && (max ? product.price <= max : true)
-      );
-    }
-
-    return filtered;
-  };
+  const { data: productDetails = [] } = useGetProducts(
+    selectedCategory === "All" ? undefined : selectedCategory,
+    priceRange[0],
+    priceRange[1],
+    sortOrder === "default" ? undefined : sortOrder
+  );
 
   return (
     <>
       <section className="flex flex-col md:flex-row justify-between w-[90%] mx-auto py-4 space-y-4 md:space-y-0">
-        <div className="flex flex-col md:flex-row items-start md:items-center space-y-4 md:space-y-0 md:space-x-4 w-full">
+        <div className="flex flex-col md:flex-row items-start md:items-center space-y-4 md:space-y-0 md:space-x-6 w-full">
           <div className="w-full md:w-auto">
             <Typography variant="span" className="text-xs uppercase">
               Categories
@@ -94,26 +64,23 @@ const ShopGridSection = () => {
             </DropdownMenu>
           </div>
 
-          <div className="w-full md:w-auto">
+          <div className="w-full md:w-auto pt-2">
             <Typography variant="span" className="text-xs uppercase">
-              Price
+              Price Range
             </Typography>
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center border px-4 py-2 rounded w-full md:w-56 justify-between">
-                {selectedPrice}
-                <ChevronDown className="ml-2 w-4 h-4" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-full md:w-56">
-                {prices.map((price) => (
-                  <DropdownMenuItem
-                    key={price}
-                    onClick={() => setSelectedPrice(price)}
-                  >
-                    {price}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="flex flex-col px-4 py-2 w-full md:w-56">
+              <Slider
+                min={0}
+                max={200000}
+                value={priceRange}
+                onValueChange={(value) => setPriceRange(value)}
+                step={1000}
+              />
+              <div className="flex justify-between mt-2 text-xs">
+                <span>${priceRange[0]}</span>
+                <span>${priceRange[1]}</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -159,13 +126,13 @@ const ShopGridSection = () => {
       <section className="px-4 md:px-12 lg:px-24 py-12">
         {viewType === "grid" ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-            {filteredProducts().map((product) => (
+            {productDetails.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {filteredProducts().map((product) => (
+            {productDetails.map((product) => (
               <ProductListComp key={product.id} product={product} />
             ))}
           </div>

@@ -1,12 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import { ProductApi } from "@/types/ProductApi";
 
-const fetchProducts = async (): Promise<Array<ProductApi>> => {
+const fetchProducts = async (
+  category?: string,
+  minPrice?: number,
+  maxPrice?: number,
+  sortOrder?: string
+): Promise<Array<ProductApi>> => {
   const jwtToken = localStorage.getItem("jwtToken");
+  const queryParams = new URLSearchParams();
+  if (category && category !== "All") queryParams.append("category", category);
+  if (minPrice !== undefined) queryParams.append("minPrice", minPrice.toString());
+  if (maxPrice !== undefined) queryParams.append("maxPrice", maxPrice.toString());
+  if (sortOrder) queryParams.append("sortOrder", sortOrder);
 
-  console.log("Jwt", jwtToken);
+  const queryString = queryParams.toString();
+  const url = `https://localhost:7058/api/products${queryString ? `?${queryString}` : ""}`;
 
-  const res = await fetch("https://localhost:7058/api/products", {
+  const res = await fetch(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -23,10 +34,16 @@ const fetchProducts = async (): Promise<Array<ProductApi>> => {
   return data;
 };
 
-const useGetProducts = () => {
+// Updated useGetProducts hook to accept filter parameters
+const useGetProducts = (
+  category?: string,
+  minPrice?: number,
+  maxPrice?: number,
+  sortOrder?: string
+) => {
   return useQuery({
-    queryKey: ["products"],
-    queryFn: fetchProducts,
+    queryKey: ["products", category, minPrice, maxPrice, sortOrder],
+    queryFn: () => fetchProducts(category, minPrice, maxPrice, sortOrder),
     staleTime: 0,
   });
 };
