@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 import ToggleImageSectionSkeleton from "../skeletons/ToggleImageSectionSkeleton";
+import AiImageAnalyzer from "../aiimageanalyzer/AiImageAnalyzer";
 
 interface ImageProps {
   url: string;
@@ -114,6 +115,7 @@ const ToggleImageSection: FC<ToggleImageSectionProps> = ({
           }
         })}
       </div>
+      {selectedImage && <AiImageAnalyzer imageUrl={selectedImage.url} />}
     </div>
   );
 };
