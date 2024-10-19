@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Typography from "@/components/common/Typography";
 import { X } from "lucide-react";
 import useGetUserCartItems from "@/hooks/useGetUserCartItems";
@@ -10,25 +9,21 @@ import { useDeleteCartItem } from "@/hooks/useDeleteCartItem";
 import { useCartItemQuantityIncrement } from "@/hooks/useCartItemQuantityIncrement";
 import { useCartItemQuantityDecrement } from "@/hooks/useCartItemQuantityDecrement";
 import { CartItemResponse } from "@/types/CartItemResponse";
+import useOrderStore from "@/store/useOrderStore";
 
-const OrderSummary: React.FC = () => {
+const OrderSummary = () => {
   const { data: cartData, isLoading, error } = useGetUserCartItems();
   const { mutate: deleteFromCart } = useDeleteCartItem();
   const { mutate: incrementQuantity } = useCartItemQuantityIncrement();
   const { mutate: decrementQuantity } = useCartItemQuantityDecrement();
   const [cart, setCart] = useState<CartItemResponse[]>([]);
-  const router = useRouter();
+  const setOrderDetails = useOrderStore((state) => state.setOrderDetails);
 
   useEffect(() => {
     if (cartData) {
       setCart(cartData);
     }
   }, [cartData]);
-
-  const handlePlaceOrder = () => {
-    console.log("Order placed successfully!");
-    router.push("/order-success");
-  };
 
   const handleRemoveItem = async (cartItemId: string) => {
     try {
@@ -52,7 +47,10 @@ const OrderSummary: React.FC = () => {
                   ...item,
                   products: item.products.map((product) =>
                     product.productQuantity > 1
-                      ? { ...product, productQuantity: product.productQuantity - 1 }
+                      ? {
+                          ...product,
+                          productQuantity: product.productQuantity - 1,
+                        }
                       : product
                   ),
                 }
@@ -101,28 +99,40 @@ const OrderSummary: React.FC = () => {
       .toFixed(2);
   };
 
+  const handlePlaceOrder = () => {
+    const orderDetails = {
+      orderId: new Date().toISOString(),
+      totalAmount: parseFloat(calculateTotal()),
+      items: cart.map((item) => ({
+        id: item.cartItemId,
+        name: item.products[0].productName,
+        quantity: item.products[0].productQuantity,
+        price: item.products[0].productPrice,
+      })),
+    };
+
+    setOrderDetails(orderDetails);
+  };
+
   if (isLoading) return <Typography variant="span">Loading...</Typography>;
   if (error)
     return <Typography variant="span">Error loading cart data</Typography>;
 
   return (
-    <div className="p-6">
-      <Typography variant="h1" className="text-center text-5xl font-normal">
-        Checkout
-      </Typography>
+    <div className="p-6 w-[90%] mx-auto ">
       <Typography variant="h6" className="text-2xl font-medium mb-4">
         Order Summary
       </Typography>
       {cart.length > 0 ? (
         <>
-          <div className="w-full overflow-x-auto p-4 border-2 border-gray-600 rounded-lg overflow-y-auto no-scrollbar">
+          <div className="overflow-x-auto p-4 border-2 border-gray-300 rounded-lg overflow-y-auto no-scrollbar">
             <table className="w-full table-auto">
               <thead>
                 <tr className="text-left border-b-2 border-gray-300 pb-8">
-                  <th className="pb-2">Product</th>
-                  <th className="pb-2">Quantity</th>
-                  <th className="pb-2">Price</th>
-                  <th className="pb-2">Subtotal</th>
+                  <th className="pb-2 w-[40%]">Product</th>
+                  <th className="pb-2 w-[20%]">Quantity</th>
+                  <th className="pb-2 w-[20%]">Price</th>
+                  <th className="pb-2 w-[20%]">Subtotal</th>
                 </tr>
               </thead>
               <tbody>
@@ -131,7 +141,7 @@ const OrderSummary: React.FC = () => {
                     key={item.cartItemId}
                     className="border-b-[1px] border-gray-300"
                   >
-                    <td className="flex items-center py-4">
+                    <td className="flex items-center py-4 w-[50%]">
                       <Image
                         src={item.products[0].productImage}
                         alt={item.products[0].productName}
@@ -140,7 +150,10 @@ const OrderSummary: React.FC = () => {
                         height={64}
                       />
                       <div className="ml-4 flex flex-col justify-center items-start">
-                        <Typography variant="span" className="text-base">
+                        <Typography
+                          variant="span"
+                          className="text-base line-clamp-1"
+                        >
                           {item.products[0].productName}
                         </Typography>
                         <button
@@ -151,7 +164,7 @@ const OrderSummary: React.FC = () => {
                         </button>
                       </div>
                     </td>
-                    <td className="text-center">
+                    <td className="text-center w-[20%]">
                       <IncrementDecrementButton
                         quantity={item.products[0].productQuantity}
                         handleIncrement={() =>
@@ -162,8 +175,10 @@ const OrderSummary: React.FC = () => {
                         }
                       />
                     </td>
-                    <td>${item.products[0].productPrice.toFixed(2)}</td>
-                    <td className="font-semibold">
+                    <td style={{ width: "20%" }}>
+                      ${item.products[0].productPrice.toFixed(2)}
+                    </td>
+                    <td className="font-semibold w-[20%]">
                       $
                       {(
                         item.products[0].productPrice *

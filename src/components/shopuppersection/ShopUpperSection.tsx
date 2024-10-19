@@ -12,15 +12,14 @@ import {
 const ShopUpperSection = () => {
   return (
     <section className="relative w-[90%] mx-auto rounded-lg h-[300px] md:h-[400px] font-Poppins">
-      {/* Optimized Next.js Image component */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/assets/images/shop_bg.png" // Path to the image
+          src="/assets/images/shop_bg.png" 
           alt="Shop background"
-          layout="fill" // Ensures the image covers the entire section
-          objectFit="cover" // Acts like `background-size: cover`
-          priority // Optional: Prioritize image loading
-          className="rounded-lg" // Ensures rounded corners are applied to the image
+          layout="fill" 
+          objectFit="cover" 
+          priority 
+          className="rounded-lg" 
         />
       </div>
       

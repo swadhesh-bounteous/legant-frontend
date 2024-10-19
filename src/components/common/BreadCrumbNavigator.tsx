@@ -8,6 +8,7 @@ import {
 } from "../ui/breadcrumb";
 import { useRouter } from "next/navigation";
 import { ProductApi } from "@/types/ProductApi";
+import Typography from "./Typography";
 
 type BreadCrumbNavigatorProps = {
   product: ProductApi;
@@ -35,7 +36,7 @@ const BreadCrumbNavigator = ({
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink>{product?.name}</BreadcrumbLink>
+          <Typography variant="span">{product?.name}</Typography>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

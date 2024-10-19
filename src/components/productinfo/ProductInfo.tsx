@@ -1,6 +1,6 @@
 "use client";
 import { ProductApi } from "@/types/ProductApi";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Typography from "../common/Typography";
 import ProductInfoSkeleton from "../skeletons/ProductInfoSkeleton";
 
@@ -16,15 +16,22 @@ const SkeletonProductInfo = () => {
 const ProductInfo = ({ product, isLoading }: Props) => {
   const [activeTab, setActiveTab] = useState("additionalInfo");
   const [fadeIn, setFadeIn] = useState(true);
+  let timeoutId: NodeJS.Timeout;
 
   const handleTabChange = (tab: string) => {
     setFadeIn(false);
 
-    setTimeout(() => {
+    timeoutId = setTimeout(() => {
       setActiveTab(tab);
       setFadeIn(true);
     }, 300);
   };
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [activeTab]);
 
   if (isLoading) {
     return <SkeletonProductInfo />;

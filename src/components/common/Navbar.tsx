@@ -19,7 +19,7 @@ const Navbar = () => {
     setIsCartDrawerOpen(!isCartDrawerOpen);
   };
 
-  const { data: cartData, isLoading, error } = useGetUserCartItems();
+  const { data: cartData } = useGetUserCartItems();
 
   const cartItemCount = cartData
     ? cartData.reduce(
@@ -32,8 +32,8 @@ const Navbar = () => {
     <header className="bg-white">
       <nav className="container mx-auto flex justify-between items-center py-6 px-6">
         <div className="flex items-center gap-x-2">
-          <button onClick={toggleDrawer} className="md:hidden">
-            <MenuIcon className="w-6 h-6 mr-2" />
+          <button onClick={toggleDrawer} className="md:hidden" aria-label="Menu button">
+            <MenuIcon className="w-6 h-6 mr-2"/>
           </button>
           <Typography variant="span" className="text-xl font-semibold">
             3legant.
@@ -65,9 +65,8 @@ const Navbar = () => {
           <Link href="/wishlist">
             <Heart className="w-5 h-5" />
           </Link>
-          <button onClick={toggleCartDrawer} className="relative">
+          <button onClick={toggleCartDrawer} className="relative" aria-label="Shopping bag">
             <ShoppingBag className="w-5 h-5" />
-            {/* Display the cart item count */}
             {cartItemCount > 0 && (
               <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs px-1">
                 {cartItemCount}
@@ -80,9 +79,8 @@ const Navbar = () => {
           <Link href="/wishlist">
             <Heart className="w-5 h-5" />
           </Link>
-          <button onClick={toggleCartDrawer} className="relative">
+          <button onClick={toggleCartDrawer} className="relative" aria-label="Shopping cart count">
             <ShoppingBag className="w-5 h-5" />
-            {/* Display the cart item count */}
             {cartItemCount > 0 && (
               <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs px-1">
                 {cartItemCount}
@@ -102,7 +100,6 @@ const Navbar = () => {
         />
       )}
 
-      {/* Use the CustomDrawer and CartDrawer components */}
       <CustomDrawer isOpen={isDrawerOpen} onClose={toggleDrawer} />
       <CartDrawer isOpen={isCartDrawerOpen} onClose={toggleCartDrawer} />
     </header>
