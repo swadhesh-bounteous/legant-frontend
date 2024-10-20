@@ -6,7 +6,7 @@ import user_reg from "../../../public/assets/images/user_reg.png";
 import dynamic from "next/dynamic";
 import Typography from "@/components/common/Typography";
 
-const SignUpForm = dynamic(()=> import('./SignUpForm'))
+const SignUpForm = dynamic(() => import("./SignUpForm"));
 
 const page = () => {
   return (
@@ -17,16 +17,21 @@ const page = () => {
             src={user_reg}
             aria-label="Sign up image"
             alt="Signup"
-            className="w-full h-full"
-            style={{ objectFit: "contain" }}           
+            className="w-full h-full md:p-24"
+            style={{ objectFit: "contain" }}
             priority
           />
         </div>
         <div className="w-full md:w-1/2 h-2/3 md:h-full flex flex-col p-6 justify-center md:px-32">
-          <Typography variant="h2" className="text-3xl md:text-4xl font-medium mb-6">Sign Up</Typography>
+          <Typography
+            variant="h2"
+            className="text-3xl md:text-4xl font-medium mb-6"
+          >
+            Sign Up
+          </Typography>
           <Typography variant="p" className="text-sm mb-4">
             Already have an account?{" "}
-            <Link href="/signin" className="text-green-500 font-medium">
+            <Link href="/signin" className="ml-1 text-orange-500 font-medium">
               Sign in
             </Link>
           </Typography>

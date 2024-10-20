@@ -120,7 +120,7 @@ const ProductInfo = ({ product, isLoading }: Props) => {
                               >
                                 ★
                               </Typography>
-                            )
+                            ),
                           )}
                         </div>
                       </div>

@@ -1,11 +1,12 @@
+"use client";
 import React, { useState } from "react";
 import Image from "next/image";
 import { StarIcon, Heart } from "lucide-react";
 import { ProductApi } from "@/types/ProductApi";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
-import Typography from "./Typography";
-import { useAddCartItem } from "@/hooks/useAddCartItem";
+import { Typography } from "@/components";
+import { useAddCartItem } from "@/hooks";
 import { AddCartItemRequest } from "@/types/AddCartItemRequest";
 
 type Props = {
@@ -24,19 +25,19 @@ const ProductCard = ({ product }: Props) => {
   const handleWishlistToggle = () => {
     setIsWishlisted((prev) => !prev);
   };
-  
+
   if (!userId) {
     console.error("User ID not found. Please log in.");
-    return; 
+    return;
   }
 
-  const { mutate: addToCart } = useAddCartItem(); 
+  const { mutate: addToCart } = useAddCartItem();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
 
     const addToCartRequest: AddCartItemRequest = {
-      UserId: userId, 
+      UserId: userId,
       ProductId: product.id,
       Quantity: 1,
     };
@@ -47,7 +48,7 @@ const ProductCard = ({ product }: Props) => {
   const calculateDiscount = () => {
     if (!product.originalPrice || !product.price) return null;
     const discountPercentage = Math.round(
-      ((product.originalPrice - product.price) / product.originalPrice) * 100
+      ((product.originalPrice - product.price) / product.originalPrice) * 100,
     );
     return `-${discountPercentage}%`;
   };

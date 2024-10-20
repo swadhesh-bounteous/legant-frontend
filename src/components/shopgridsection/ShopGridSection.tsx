@@ -12,8 +12,9 @@ import {
 import { ChevronDown, Grid, List } from "lucide-react";
 import ViewToggleButton from "../common/ViewToggleButton";
 import Typography from "../common/Typography";
-import ProductListComp from "../common/ProductListComp";
+import { ProductListComp } from "@/components/index";
 import { Slider } from "../ui/slider";
+import { LoadingSpinner } from "@/components/index";
 
 const categories = [
   "All",
@@ -31,11 +32,11 @@ const ShopGridSection = () => {
   const [priceRange, setPriceRange] = useState([0, 200000]);
   const [viewType, setViewType] = useState<"grid" | "list">("grid");
 
-  const { data: productDetails = [] } = useGetProducts(
+  const { data: productDetails = [], isPending } = useGetProducts(
     selectedCategory === "All" ? undefined : selectedCategory,
     priceRange[0],
     priceRange[1],
-    sortOrder === "default" ? undefined : sortOrder
+    sortOrder === "default" ? undefined : sortOrder,
   );
 
   return (
@@ -123,21 +124,27 @@ const ShopGridSection = () => {
         </div>
       </section>
 
-      <section className="px-4 md:px-12 lg:px-24 py-12">
-        {viewType === "grid" ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-            {productDetails.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {productDetails.map((product) => (
-              <ProductListComp key={product.id} product={product} />
-            ))}
-          </div>
-        )}
-      </section>
+      {isPending ? (
+        <div className="flex justify-center items-center h-96">
+          <LoadingSpinner size={48} className="text-black" />
+        </div>
+      ) : (
+        <section className="px-4 md:px-12 lg:px-24 py-12">
+          {viewType === "grid" ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+              {productDetails.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {productDetails.map((product) => (
+                <ProductListComp key={product.id} product={product} />
+              ))}
+            </div>
+          )}
+        </section>
+      )}
     </>
   );
 };

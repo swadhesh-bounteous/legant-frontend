@@ -1,6 +1,5 @@
 export interface AddCartItemRequest {
-    UserId: string;  
-    ProductId: string;
-    Quantity?: number; 
-  }
-  
+  UserId: string;
+  ProductId: string;
+  Quantity?: number;
+}

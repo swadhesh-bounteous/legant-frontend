@@ -1,3 +1,4 @@
+"use client";
 import useGetProductByCategory from "@/hooks/useGetProductByCategory";
 import React, { useState } from "react";
 import ProductCard from "../common/ProductCard";

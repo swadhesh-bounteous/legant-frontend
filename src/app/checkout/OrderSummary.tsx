@@ -5,9 +5,9 @@ import { X } from "lucide-react";
 import useGetUserCartItems from "@/hooks/useGetUserCartItems";
 import Image from "next/image";
 import IncrementDecrementButton from "@/components/common/IncrementDecrementButton";
-import { useDeleteCartItem } from "@/hooks/useDeleteCartItem";
-import { useCartItemQuantityIncrement } from "@/hooks/useCartItemQuantityIncrement";
-import { useCartItemQuantityDecrement } from "@/hooks/useCartItemQuantityDecrement";
+import { useDeleteCartItem } from "@/hooks";
+import { useCartItemQuantityIncrement } from "@/hooks";
+import { useCartItemQuantityDecrement } from "@/hooks";
 import { CartItemResponse } from "@/types/CartItemResponse";
 import useOrderStore from "@/store/useOrderStore";
 
@@ -29,7 +29,7 @@ const OrderSummary = () => {
     try {
       await deleteFromCart(cartItemId);
       setCart((prevCart) =>
-        prevCart.filter((item) => item.cartItemId !== cartItemId)
+        prevCart.filter((item) => item.cartItemId !== cartItemId),
       );
       console.log(`Removed item with ID: ${cartItemId}`);
     } catch (error) {
@@ -51,11 +51,11 @@ const OrderSummary = () => {
                           ...product,
                           productQuantity: product.productQuantity - 1,
                         }
-                      : product
+                      : product,
                   ),
                 }
-              : item
-          )
+              : item,
+          ),
         );
         console.log(`Decremented quantity for item ID: ${cartItemId}`);
       },
@@ -78,8 +78,8 @@ const OrderSummary = () => {
                     productQuantity: product.productQuantity + 1,
                   })),
                 }
-              : item
-          )
+              : item,
+          ),
         );
         console.log(`Incremented quantity for item ID: ${cartItemId}`);
       },

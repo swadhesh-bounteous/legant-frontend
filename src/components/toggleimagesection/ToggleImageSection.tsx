@@ -32,7 +32,8 @@ const ToggleImageSection: FC<ToggleImageSectionProps> = ({
   }, [images, isSuccess]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const { left, top, width, height } =
+      e.currentTarget.getBoundingClientRect();
     const x = e.pageX - left;
     const y = e.pageY - top;
 

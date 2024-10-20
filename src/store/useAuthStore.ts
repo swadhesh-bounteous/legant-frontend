@@ -1,9 +1,9 @@
 import { create } from "zustand";
 
 interface AuthState {
-  jwtToken: string | null; 
-  setJwtToken: (token: string) => void; 
-  clearJwtToken: () => void; 
+  jwtToken: string | null;
+  setJwtToken: (token: string) => void;
+  clearJwtToken: () => void;
 }
 
 const useAuthStore = create<AuthState>((set) => ({

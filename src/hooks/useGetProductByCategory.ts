@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ProductApi } from "@/types/ProductApi";
 
 const fetchProductsByCategory = async (
-  category: string
+  category: string,
 ): Promise<ProductApi> => {
   const jwtToken = localStorage.getItem("jwtToken");
   const res = await fetch(
@@ -13,7 +13,7 @@ const fetchProductsByCategory = async (
         "Content-Type": "application/json",
         Authorization: `Bearer ${jwtToken}`,
       },
-    }
+    },
   );
 
   if (!res.ok) {

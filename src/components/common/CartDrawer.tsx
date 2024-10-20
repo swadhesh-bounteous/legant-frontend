@@ -5,12 +5,12 @@ import Typography from "@/components/common/Typography";
 import Image from "next/image";
 import useGetUserCartItems from "@/hooks/useGetUserCartItems";
 import { CartItemResponse } from "@/types/CartItemResponse";
-import { useDeleteCartItem } from "@/hooks/useDeleteCartItem"; 
+import { useDeleteCartItem } from "@/hooks";
 import { UUID } from "crypto";
 import { useRouter } from "next/navigation";
 import IncrementDecrementButton from "./IncrementDecrementButton";
-import { useCartItemQuantityIncrement } from "@/hooks/useCartItemQuantityIncrement";
-import { useCartItemQuantityDecrement } from "@/hooks/useCartItemQuantityDecrement";
+import { useCartItemQuantityIncrement } from "@/hooks";
+import { useCartItemQuantityDecrement } from "@/hooks";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -19,7 +19,7 @@ interface CartDrawerProps {
 
 const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
   const { data: cartData } = useGetUserCartItems();
-  const { mutate: deleteFromCart } = useDeleteCartItem(); 
+  const { mutate: deleteFromCart } = useDeleteCartItem();
   const { mutate: incrementQuantity } = useCartItemQuantityIncrement();
   const { mutate: decrementQuantity } = useCartItemQuantityDecrement();
   const [cart, setCart] = useState<CartItemResponse[]>([]);
@@ -33,56 +33,59 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
 
   const handleIncrement = (cartItemId: UUID) => {
     incrementQuantity(cartItemId, {
-        onSuccess: () => {
-          setCart((prevCart) =>
-            prevCart.map((item) =>
-              item.cartItemId === cartItemId
-                ? {
-                    ...item,
-                    products: item.products.map((product) => ({
-                      ...product,
-                      productQuantity: product.productQuantity + 1,
-                    })),
-                  }
-                : item
-            )
-          );
-          console.log(`Incremented quantity for item ID: ${cartItemId}`);
-        },
-        onError: (error) => {
-          console.error("Failed to increment quantity:", error);
-        },
-      });
+      onSuccess: () => {
+        setCart((prevCart) =>
+          prevCart.map((item) =>
+            item.cartItemId === cartItemId
+              ? {
+                  ...item,
+                  products: item.products.map((product) => ({
+                    ...product,
+                    productQuantity: product.productQuantity + 1,
+                  })),
+                }
+              : item,
+          ),
+        );
+        console.log(`Incremented quantity for item ID: ${cartItemId}`);
+      },
+      onError: (error) => {
+        console.error("Failed to increment quantity:", error);
+      },
+    });
   };
 
   const handleDecrement = (cartItemId: UUID) => {
     decrementQuantity(cartItemId, {
-        onSuccess: () => {
-          setCart((prevCart) =>
-            prevCart.map((item) =>
-              item.cartItemId === cartItemId
-                ? {
-                    ...item,
-                    products: item.products.map((product) =>
-                      product.productQuantity > 1
-                        ? { ...product, productQuantity: product.productQuantity - 1 }
-                        : product
-                    ),
-                  }
-                : item
-            )
-          );
-          console.log(`Decremented quantity for item ID: ${cartItemId}`);
-        },
-        onError: (error) => {
-          console.error("Failed to decrement quantity:", error);
-        },
-      });
+      onSuccess: () => {
+        setCart((prevCart) =>
+          prevCart.map((item) =>
+            item.cartItemId === cartItemId
+              ? {
+                  ...item,
+                  products: item.products.map((product) =>
+                    product.productQuantity > 1
+                      ? {
+                          ...product,
+                          productQuantity: product.productQuantity - 1,
+                        }
+                      : product,
+                  ),
+                }
+              : item,
+          ),
+        );
+        console.log(`Decremented quantity for item ID: ${cartItemId}`);
+      },
+      onError: (error) => {
+        console.error("Failed to decrement quantity:", error);
+      },
+    });
   };
 
   const handleDelete = async (cartItemId: UUID) => {
     try {
-      await deleteFromCart(cartItemId); 
+      await deleteFromCart(cartItemId);
       const updatedCart = cart.filter((item) => item.cartItemId !== cartItemId);
       setCart(updatedCart);
     } catch (error) {
@@ -102,14 +105,14 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
         (sum, item) =>
           sum +
           item.products[0].productPrice * item.products[0].productQuantity,
-        0
+        0,
       )
       .toFixed(2);
   };
 
-  const handleCheckout=()=>{
-    router.push('/checkout');
-  }
+  const handleCheckout = () => {
+    router.push("/checkout");
+  };
 
   return (
     <div
@@ -177,7 +180,10 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                 <Typography variant="span">Total:</Typography>
                 <Typography variant="span">${calculateTotal()}</Typography>
               </div>
-              <button className="w-full bg-black text-white py-2 rounded" onClick={handleCheckout}>
+              <button
+                className="w-full bg-black text-white py-2 rounded"
+                onClick={handleCheckout}
+              >
                 Checkout
               </button>
             </>

@@ -8,7 +8,7 @@ import {
 } from "../ui/breadcrumb";
 import { useRouter } from "next/navigation";
 import { ProductApi } from "@/types/ProductApi";
-import Typography from "./Typography";
+import { Typography } from "@/components";
 
 type BreadCrumbNavigatorProps = {
   product: ProductApi;

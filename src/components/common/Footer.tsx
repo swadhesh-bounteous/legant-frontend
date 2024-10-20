@@ -8,11 +8,19 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col sm:flex-row justify-between items-center border-b border-gray-700 pb-8 space-y-4 sm:space-y-0">
           <div className="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-6 space-y-4 sm:space-y-0">
-            <Typography variant="h2" className="text-xl font-medium text-center sm:text-left">
+            <Typography
+              variant="h2"
+              className="text-xl font-medium text-center sm:text-left"
+            >
               3legant.
             </Typography>
-            <Typography variant="p" className="text-gray-400 hidden sm:block">|</Typography>
-            <Typography variant="p" className="text-sm text-center sm:text-left">
+            <Typography variant="p" className="text-gray-400 hidden sm:block">
+              |
+            </Typography>
+            <Typography
+              variant="p"
+              className="text-sm text-center sm:text-left"
+            >
               Watch Store
             </Typography>
           </div>
@@ -28,10 +36,15 @@ const Footer = () => {
                     {item}
                   </a>
                   {index < array.length - 1 && (
-                    <Typography variant="span" className="text-gray-500 hidden sm:block">|</Typography>
+                    <Typography
+                      variant="span"
+                      className="text-gray-500 hidden sm:block"
+                    >
+                      |
+                    </Typography>
                   )}
                 </React.Fragment>
-              )
+              ),
             )}
           </nav>
         </div>

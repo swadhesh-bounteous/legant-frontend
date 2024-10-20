@@ -9,19 +9,15 @@ const ProductDetailsSkeleton = () => {
         <Skeleton className="w-24 h-6" /> {/* Rating stars */}
         <Skeleton className="w-16 h-6" /> {/* Reviews */}
       </div>
-
       {/* Product name skeleton */}
       <Skeleton className="h-8 md:h-10 w-2/3" /> {/* Name */}
-
       {/* Pricing skeleton */}
       <div className="flex space-x-2">
         <Skeleton className="w-16 h-8" /> {/* Price */}
         <Skeleton className="w-12 h-6" /> {/* Original Price */}
       </div>
-
       {/* Description skeleton */}
       <Skeleton className="w-full h-16" /> {/* Description */}
-
       {/* Size selection skeleton */}
       <div className="flex flex-col items-start space-y-2">
         <Skeleton className="w-16 h-4" /> {/* Size label */}
@@ -31,7 +27,6 @@ const ProductDetailsSkeleton = () => {
           <Skeleton className="w-12 h-12" /> {/* Size button 3 */}
         </div>
       </div>
-
       {/* Color selection skeleton */}
       <div className="flex flex-col items-start space-y-2">
         <Skeleton className="w-24 h-4" /> {/* Color label */}
@@ -41,16 +36,13 @@ const ProductDetailsSkeleton = () => {
           <Skeleton className="w-8 h-8 rounded-full" /> {/* Color circle 3 */}
         </div>
       </div>
-
       {/* Quantity selection skeleton */}
       <div className="flex flex-col gap-y-4 md:flex-row md:space-x-4 pb-2">
         <Skeleton className="w-full md:w-40 h-12" /> {/* Quantity selector */}
         <Skeleton className="w-full h-12" /> {/* Wishlist button */}
       </div>
-
       {/* Add to Cart button skeleton */}
       <Skeleton className="w-full h-12" /> {/* Add to Cart */}
-
       {/* Additional info skeleton */}
       <div className="border-t border-gray-300 flex flex-col gap-3 text-gray-600 font-light pt-8 text-sm">
         <div className="flex justify-start gap-x-3">

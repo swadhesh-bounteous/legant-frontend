@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
@@ -10,12 +10,11 @@ import { ProductApi } from "@/types/ProductApi";
 import RelatedProducts from "@/components/relatedproducts/RelatedProducts";
 import BreadCrumbNavigator from "@/components/common/BreadCrumbNavigator";
 
-type ProductContentProps={
-    productId: string
-}
+type ProductContentProps = {
+  productId: string;
+};
 
-const ProductContent = ({productId}:ProductContentProps) => {
-
+const ProductContent = ({ productId }: ProductContentProps) => {
   const { data: product, isLoading, isSuccess } = useGetProductById(productId);
 
   return (

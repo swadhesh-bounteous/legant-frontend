@@ -5,13 +5,15 @@ const fetchProducts = async (
   category?: string,
   minPrice?: number,
   maxPrice?: number,
-  sortOrder?: string
+  sortOrder?: string,
 ): Promise<Array<ProductApi>> => {
   const jwtToken = localStorage.getItem("jwtToken");
   const queryParams = new URLSearchParams();
   if (category && category !== "All") queryParams.append("category", category);
-  if (minPrice !== undefined) queryParams.append("minPrice", minPrice.toString());
-  if (maxPrice !== undefined) queryParams.append("maxPrice", maxPrice.toString());
+  if (minPrice !== undefined)
+    queryParams.append("minPrice", minPrice.toString());
+  if (maxPrice !== undefined)
+    queryParams.append("maxPrice", maxPrice.toString());
   if (sortOrder) queryParams.append("sortOrder", sortOrder);
 
   const queryString = queryParams.toString();
@@ -34,12 +36,11 @@ const fetchProducts = async (
   return data;
 };
 
-// Updated useGetProducts hook to accept filter parameters
 const useGetProducts = (
   category?: string,
   minPrice?: number,
   maxPrice?: number,
-  sortOrder?: string
+  sortOrder?: string,
 ) => {
   return useQuery({
     queryKey: ["products", category, minPrice, maxPrice, sortOrder],

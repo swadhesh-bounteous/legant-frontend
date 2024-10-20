@@ -26,16 +26,24 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ isOpen, onClose }) => {
         </div>
         <ul className="mt-6 flex flex-col gap-y-6 font-medium items-start text-md">
           <li>
-            <Link href="/" onClick={onClose}>Home</Link>
+            <Link href="/" onClick={onClose}>
+              Home
+            </Link>
           </li>
           <li>
-            <Link href="/shop" onClick={onClose}>Shop</Link>
+            <Link href="/shop" onClick={onClose}>
+              Shop
+            </Link>
           </li>
           <li>
-            <Link href="/product" onClick={onClose}>Product</Link>
+            <Link href="/product" onClick={onClose}>
+              Product
+            </Link>
           </li>
           <li>
-            <Link href="/contact" onClick={onClose}>Contact</Link>
+            <Link href="/contact" onClick={onClose}>
+              Contact
+            </Link>
           </li>
         </ul>
       </div>

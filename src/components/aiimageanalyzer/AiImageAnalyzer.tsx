@@ -1,8 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import Typography from "../common/Typography";
+import { Typography } from "@/components";
 import { Button } from "../ui/button";
 
 type Props = {
@@ -34,7 +33,7 @@ const AiImageAnalyzer: React.FC<Props> = ({ imageUrl }) => {
 
     try {
       const genAI = new GoogleGenerativeAI(
-        process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY!
+        process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY!,
       );
       const model = genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
@@ -83,7 +82,7 @@ const AiImageAnalyzer: React.FC<Props> = ({ imageUrl }) => {
   };
 
   const fileToGenerativePart = async (
-    file: File
+    file: File,
   ): Promise<{ inlineData: { data: string; mimeType: string } }> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -108,7 +107,7 @@ const AiImageAnalyzer: React.FC<Props> = ({ imageUrl }) => {
 
   const generateRelatedQuestions = async (text: string) => {
     const genAI = new GoogleGenerativeAI(
-      process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY!
+      process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY!,
     );
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -131,7 +130,7 @@ const AiImageAnalyzer: React.FC<Props> = ({ imageUrl }) => {
 
   const askRelatedQuestion = (question: string) => {
     identifyImage(
-      `Answer the following question about the image: "${question}"`
+      `Answer the following question about the image: "${question}"`,
     );
   };
 

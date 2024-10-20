@@ -1,5 +1,5 @@
 import React from "react";
-import ProductContent from "@/components/common/ProductContent";
+import { ProductContent } from "@/components";
 
 interface ProductPageProps {
   params: {

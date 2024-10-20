@@ -1,3 +1,4 @@
+"use client";
 import { ProductApi } from "@/types/ProductApi";
 import { StarIcon, Heart } from "lucide-react"; // Assuming Heart is a valid icon from lucide-react
 import Image from "next/image";

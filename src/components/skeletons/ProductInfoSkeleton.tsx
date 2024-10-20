@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 const ProductInfoSkeleton = (props: Props) => {
   return (
@@ -18,7 +18,7 @@ const ProductInfoSkeleton = (props: Props) => {
         <div className="w-full h-48 sm:h-72 bg-gray-200 rounded-md"></div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductInfoSkeleton
+export default ProductInfoSkeleton;

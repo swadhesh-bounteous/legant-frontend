@@ -5,13 +5,16 @@ import { CartItemResponse } from "@/types/CartItemResponse";
 const fetchCartItemsByUserId = async (): Promise<CartItemResponse[]> => {
   const jwtToken = localStorage.getItem("jwtToken");
   const userId = localStorage.getItem("userId");
-  const res = await fetch(`https://localhost:7058/api/Cart/user?userId=${userId}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${jwtToken}`,
+  const res = await fetch(
+    `https://localhost:7058/api/Cart/user?userId=${userId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
+      },
     },
-  });
+  );
 
   if (!res.ok) {
     throw new Error("Error fetching product");

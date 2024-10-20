@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image"; // Import the Next.js Image component
+import Image from "next/image";
 import Typography from "../common/Typography";
 import {
   Breadcrumb,
@@ -14,15 +14,15 @@ const ShopUpperSection = () => {
     <section className="relative w-[90%] mx-auto rounded-lg h-[300px] md:h-[400px] font-Poppins">
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/assets/images/shop_bg.png" 
+          src="/assets/images/shop_bg.jpg"
           alt="Shop background"
-          layout="fill" 
-          objectFit="cover" 
-          priority 
-          className="rounded-lg" 
+          layout="fill"
+          objectFit="cover"
+          priority
+          className="rounded-lg"
         />
       </div>
-      
+
       <div className="absolute inset-0 flex flex-col justify-center items-center text-center">
         <Breadcrumb className="text-gray-800 text-xs md:text-sm mb-4">
           <BreadcrumbList>
