@@ -50,7 +50,8 @@ const RelatedProducts = ({ category }: Props) => {
         <div className="flex justify-center mt-8">
           <button
             onClick={showMoreProducts}
-            className="bg-transparent border-2 border-darkbeige text-darkbeige font-semibold py-2 px-4 rounded hover:bg-beige transition duration-300"
+            className="bg-transparent border-2 border-black font-semibold py-2 px-4 rounded-md"
+            aria-label="Show more button"
           >
             Show More
           </button>

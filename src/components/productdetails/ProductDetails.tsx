@@ -32,12 +32,11 @@ const ProductDetails = ({ product, isLoading }: Props) => {
   const handleSizeSelect = (size: string) => setSelectedSize(size);
   const handleColorSelect = (color: string) => setSelectedColor(color);
 
-  
   if (!userId) {
     console.error("User ID not found. Please log in.");
     return;
   }
-  
+
   const { mutate: addToCart } = useAddCartItem();
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -99,6 +98,7 @@ const ProductDetails = ({ product, isLoading }: Props) => {
                 selectedSize === size ? "text-white" : ""
               }`}
               onClick={() => handleSizeSelect(size)}
+              aria-label="Size button"
             >
               {size}
             </Button>
@@ -126,7 +126,11 @@ const ProductDetails = ({ product, isLoading }: Props) => {
       </div>
 
       <div className="flex flex-col gap-y-4 md:flex-row md:space-x-4 pb-2">
-        <IncrementDecrementButton quantity={quantity} handleDecrement={decrementQuantity} handleIncrement={incrementQuantity}/>
+        <IncrementDecrementButton
+          quantity={quantity}
+          handleDecrement={decrementQuantity}
+          handleIncrement={incrementQuantity}
+        />
         <Button
           variant="outline"
           size="lg"

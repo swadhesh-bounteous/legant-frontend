@@ -58,6 +58,7 @@ const Footer = () => {
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Instagram link"
             >
               <Instagram className="w-5 h-5 hover:text-gray-400" />
             </a>
@@ -65,6 +66,7 @@ const Footer = () => {
               href="https://facebook.com"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Facebook link"
             >
               <Facebook className="w-5 h-5 hover:text-gray-400" />
             </a>
@@ -72,6 +74,7 @@ const Footer = () => {
               href="https://youtube.com"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Youtube link"
             >
               <Youtube className="w-5 h-5 hover:text-gray-400" />
             </a>

@@ -49,6 +49,7 @@ const ProductInfo = ({ product, isLoading }: Props) => {
                   : "text-gray-500"
               } focus:outline-none`}
               onClick={() => handleTabChange("additionalInfo")}
+              aria-label="Additional info tab"
             >
               Additional Info
             </button>
@@ -61,6 +62,7 @@ const ProductInfo = ({ product, isLoading }: Props) => {
                   : "text-gray-500"
               } focus:outline-none`}
               onClick={() => handleTabChange("reviews")}
+              aria-label="Reviews tab"
             >
               Reviews
             </button>

@@ -73,6 +73,7 @@ const ProductCard = ({ product }: Props) => {
           <Button
             className="hover:border-2 focus:border-white font-semibold py-2 px-14 rounded-sm"
             onClick={handleAddToCart}
+            aria-label="Add to cart"
           >
             Add to Cart
           </Button>
@@ -96,7 +97,7 @@ const ProductCard = ({ product }: Props) => {
 
       <div className="p-4 flex flex-col justify-between w-full">
         {calculateDiscount() && (
-          <div className="absolute top-2 left-2 bg-green-400 text-white text-xs font-bold px-2 py-1 rounded">
+          <div className="absolute top-2 left-2 bg-green-800 text-white text-xs font-bold px-2 py-1 rounded">
             {calculateDiscount()}
           </div>
         )}

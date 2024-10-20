@@ -24,7 +24,7 @@ const Navbar = () => {
   const cartItemCount = cartData
     ? cartData.reduce(
         (total, item) => total + item.products[0].productQuantity,
-        0,
+        0
       )
     : 0;
 
@@ -46,27 +46,33 @@ const Navbar = () => {
 
         <ul className="hidden lg:flex gap-x-8 font-medium items-center text-md">
           <li>
-            <Link href="/">Home</Link>
+            <Link href="/" aria-label="Home page">
+              Home
+            </Link>
           </li>
           <li>
-            <Link href="/shop">Shop</Link>
+            <Link href="/shop" aria-label="Shop page">
+              Shop
+            </Link>
           </li>
           <li>
-            <Link href="/product">Product</Link>
+            <Link href="/product" aria-label="Product page">
+              Product
+            </Link>
           </li>
           <li>
-            <Link href="/contact">Contact</Link>
+            <Link href="/contact" aria-label="Contact page">
+              Contact
+            </Link>
           </li>
         </ul>
 
         <div className="hidden lg:flex gap-x-6 items-center">
-          <Link href="/search">
-            <Search className="w-5 h-5" />
-          </Link>
+          <Search className="w-5 h-5" />
           <Link href="/user">
             <UserIcon className="w-5 h-5" />
           </Link>
-          <Link href="/wishlist">
+          <Link href="/wishlist" aria-label="Wishlist page">
             <Heart className="w-5 h-5" />
           </Link>
           <button
@@ -84,7 +90,7 @@ const Navbar = () => {
         </div>
 
         <div className="lg:hidden flex gap-x-4 items-center">
-          <Link href="/wishlist">
+          <Link href="/wishlist" aria-label="Wishlist page">
             <Heart className="w-5 h-5" />
           </Link>
           <button

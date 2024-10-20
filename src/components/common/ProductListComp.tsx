@@ -113,7 +113,7 @@ const ProductListComp = ({ product }: Props) => {
         </Typography>
 
         <div className="flex flex-col gap-y-4 pt-12">
-          <Button className="font-semibold rounded-sm w-full" onClick={handleAddToCart}>
+          <Button className="font-semibold rounded-sm w-full" onClick={handleAddToCart} aria-label="Add to cart">
             Add to Cart
           </Button>
           <Button

@@ -13,6 +13,7 @@ const ViewToggleButton = ({
         currentViewType === viewType ? "bg-gray-200" : ""
       }`}
       onClick={onClick}
+      aria-label="View type list or grid"
     >
       <Icon className="w-5 h-5" />
     </button>
