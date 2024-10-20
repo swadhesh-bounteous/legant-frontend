@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { urlToFile, identifyImage, generateKeywords, generateRelatedQuestions } from "@/utils/AiImageAnalyzerHelper"
 import { Typography } from "@/components";
 import { Button } from "../ui/button";
 
 type Props = {
-  imageUrl: string; // Accept image as a URL prop
+  imageUrl: string; 
 };
 
 const AiImageAnalyzer: React.FC<Props> = ({ imageUrl }) => {
@@ -15,123 +15,32 @@ const AiImageAnalyzer: React.FC<Props> = ({ imageUrl }) => {
   const [relatedQuestions, setRelatedQuestions] = useState<string[]>([]);
 
   useEffect(() => {
-    const urlToFile = async (url: string): Promise<File> => {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      const fileName = url.substring(url.lastIndexOf("/") + 1);
-      const file = new File([blob], fileName, { type: blob.type });
-      return file;
-    };
-
     if (imageUrl) {
       urlToFile(imageUrl).then(setImageFile);
     }
   }, [imageUrl]);
 
-  const identifyImage = async (additionalPrompt: string = "") => {
+  const handleIdentifyImage = async (additionalPrompt: string = "") => {
     if (!imageFile) return;
 
     try {
-      const genAI = new GoogleGenerativeAI(
-        process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY!,
-      );
-      const model = genAI.getGenerativeModel({
-        model: "gemini-1.5-flash",
-      });
-
-      const imageParts = await fileToGenerativePart(imageFile);
-      const result = await model.generateContent([
-        `Identify this image and provide its name and important information including a brief explanation about that image. ${additionalPrompt}`,
-        imageParts,
-      ]);
-
-      const response = await result.response;
-      const textD = response
-        .text()
-        .trim()
-        .replace(/```/g, "")
-        .replace(/\*\*/g, "")
-        .replace(/\*/g, "")
-        .replace(/-\s*/g, "")
-        .replace(/\n\s*\n/g, "\n");
-      setText(textD);
-      generateKeywords(textD);
-      await generateRelatedQuestions(textD);
+      const identifiedText = await identifyImage(imageFile, additionalPrompt, process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY!);
+      setText(identifiedText);
+      setKeywords(generateKeywords(identifiedText));
+      const questions = await generateRelatedQuestions(identifiedText, process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY!);
+      setRelatedQuestions(questions);
     } catch (error) {
       console.error("Error identifying image:", error);
-      if (error instanceof Error) {
-        setText(`Error identifying image: ${error.message}`);
-      } else {
-        setText("An unknown error occurred while identifying the image.");
-      }
+      setText(error instanceof Error ? `Error identifying image: ${error.message}` : "An unknown error occurred while identifying the image.");
     }
-  };
-
-  const generateKeywords = (text: string) => {
-    const words = text.split(/\s+/);
-    const keywordSet = new Set<string>();
-    words.forEach((word) => {
-      if (
-        word.length > 4 &&
-        !["this", "that", "with", "from", "have"].includes(word.toLowerCase())
-      ) {
-        keywordSet.add(word);
-      }
-    });
-    setKeywords(Array.from(keywordSet).slice(0, 5));
-  };
-
-  const fileToGenerativePart = async (
-    file: File,
-  ): Promise<{ inlineData: { data: string; mimeType: string } }> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64Data = reader.result as string;
-        const base64Content = base64Data.split(",")[1];
-        resolve({
-          inlineData: {
-            data: base64Content,
-            mimeType: file.type,
-          },
-        });
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
   };
 
   const regenerateContent = (keyword: string) => {
-    identifyImage(`Focus more on aspects related to "${keyword}".`);
-  };
-
-  const generateRelatedQuestions = async (text: string) => {
-    const genAI = new GoogleGenerativeAI(
-      process.env.NEXT_PUBLIC_GOOGLE_GEMINI_API_KEY!,
-    );
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-    try {
-      const result = await model.generateContent([
-        `Based on the following information about an image, generate 5 related questions that someone might ask to learn more about the subject:
-
-        ${text}
-
-        Format the output as a simple list of questions, one per line.`,
-      ]);
-      const response = await result.response;
-      const questions = response.text().trim().split("\n");
-      setRelatedQuestions(questions);
-    } catch (error) {
-      console.error("Error generating related questions:", error);
-      setRelatedQuestions([]);
-    }
+    handleIdentifyImage(`Focus more on aspects related to "${keyword}".`);
   };
 
   const askRelatedQuestion = (question: string) => {
-    identifyImage(
-      `Answer the following question about the image: "${question}"`,
-    );
+    handleIdentifyImage(`Answer the following question about the image: "${question}"`);
   };
 
   const renderTextWithDecoration = (text: string) => {
@@ -167,8 +76,8 @@ const AiImageAnalyzer: React.FC<Props> = ({ imageUrl }) => {
   };
 
   return (
-    <section aria-label="AI image analyzer">
-      <Button variant="default" onClick={() => identifyImage()}>
+    <section aria-label="AI image analyzer" className="p-6 md:p-12 border-y border-gray-300">
+      <Button variant="default" onClick={() => handleIdentifyImage()} className="w-full">
         Analyze Image
       </Button>
       {text && (
