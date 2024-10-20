@@ -29,7 +29,7 @@ const OrderSummary = () => {
     try {
       await deleteFromCart(cartItemId);
       setCart((prevCart) =>
-        prevCart.filter((item) => item.cartItemId !== cartItemId),
+        prevCart.filter((item) => item.cartItemId !== cartItemId)
       );
       console.log(`Removed item with ID: ${cartItemId}`);
     } catch (error) {
@@ -51,11 +51,11 @@ const OrderSummary = () => {
                           ...product,
                           productQuantity: product.productQuantity - 1,
                         }
-                      : product,
+                      : product
                   ),
                 }
-              : item,
-          ),
+              : item
+          )
         );
         console.log(`Decremented quantity for item ID: ${cartItemId}`);
       },
@@ -78,8 +78,8 @@ const OrderSummary = () => {
                     productQuantity: product.productQuantity + 1,
                   })),
                 }
-              : item,
-          ),
+              : item
+          )
         );
         console.log(`Incremented quantity for item ID: ${cartItemId}`);
       },
@@ -129,10 +129,12 @@ const OrderSummary = () => {
             <table className="w-full table-auto">
               <thead>
                 <tr className="text-left border-b-2 border-gray-300 pb-8">
-                  <th className="pb-2 w-[40%]">Product</th>
+                  <th className="pb-2 w-[40%] md:w-[45%]">
+                    Product
+                  </th>
                   <th className="pb-2 w-[20%]">Quantity</th>
                   <th className="pb-2 w-[20%]">Price</th>
-                  <th className="pb-2 w-[20%]">Subtotal</th>
+                  <th className="pb-2 w-[15%]">Subtotal</th>
                 </tr>
               </thead>
               <tbody>
@@ -141,7 +143,7 @@ const OrderSummary = () => {
                     key={item.cartItemId}
                     className="border-b-[1px] border-gray-300"
                   >
-                    <td className="flex items-center py-4 w-[50%]">
+                    <td className="flex items-center py-4 w-56 md:w-[45%]">
                       <Image
                         src={item.products[0].productImage}
                         alt={item.products[0].productName}
@@ -152,7 +154,7 @@ const OrderSummary = () => {
                       <div className="ml-4 flex flex-col justify-center items-start">
                         <Typography
                           variant="span"
-                          className="text-base line-clamp-1"
+                          className="text-sm md:text-base line-clamp-1"
                         >
                           {item.products[0].productName}
                         </Typography>
@@ -164,7 +166,7 @@ const OrderSummary = () => {
                         </button>
                       </div>
                     </td>
-                    <td className="text-center w-[20%]">
+                    <td className="text-center w-[25%] md:w-[20%]">
                       <IncrementDecrementButton
                         quantity={item.products[0].productQuantity}
                         handleIncrement={() =>
@@ -175,10 +177,10 @@ const OrderSummary = () => {
                         }
                       />
                     </td>
-                    <td style={{ width: "20%" }}>
+                    <td className="w-[20%] md:w-[20%]">
                       ${item.products[0].productPrice.toFixed(2)}
                     </td>
-                    <td className="font-semibold w-[20%]">
+                    <td className="font-semibold w-[15%] sm:w-[10%]">
                       $
                       {(
                         item.products[0].productPrice *
@@ -191,7 +193,7 @@ const OrderSummary = () => {
             </table>
           </div>
           <div className="mt-4">
-            <Typography variant="h6" className="text-xl font-medium">
+            <Typography variant="h6" className="text-lg md:text-xl font-medium">
               Total: ${calculateTotal()}
             </Typography>
           </div>

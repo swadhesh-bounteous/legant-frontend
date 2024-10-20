@@ -5,6 +5,9 @@ import { ProductApi } from "@/types/ProductApi";
 import { Heart } from "lucide-react";
 import Typography from "../common/Typography";
 import ProductDetailsSkeleton from "../skeletons/ProductDetailsSkeleton";
+import IncrementDecrementButton from "../common/IncrementDecrementButton";
+import { AddCartItemRequest } from "@/types/AddCartItemRequest";
+import { useAddCartItem } from "@/hooks";
 
 type Props = {
   product: ProductApi;
@@ -16,6 +19,7 @@ const ProductDetails = ({ product, isLoading }: Props) => {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [isWished, setIsWished] = useState(false);
+  const userId = localStorage.getItem("userId");
 
   const toggleWishlist = () => {
     setIsWished((prev) => !prev);
@@ -27,6 +31,26 @@ const ProductDetails = ({ product, isLoading }: Props) => {
 
   const handleSizeSelect = (size: string) => setSelectedSize(size);
   const handleColorSelect = (color: string) => setSelectedColor(color);
+
+  
+  if (!userId) {
+    console.error("User ID not found. Please log in.");
+    return;
+  }
+  
+  const { mutate: addToCart } = useAddCartItem();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    const addToCartRequest: AddCartItemRequest = {
+      UserId: userId,
+      ProductId: product.id,
+      Quantity: 1,
+    };
+
+    addToCart(addToCartRequest);
+  };
 
   if (isLoading) {
     return <ProductDetailsSkeleton />;
@@ -102,26 +126,7 @@ const ProductDetails = ({ product, isLoading }: Props) => {
       </div>
 
       <div className="flex flex-col gap-y-4 md:flex-row md:space-x-4 pb-2">
-        <div className="flex space-x-4 items-center rounded-lg bg-gray-200 w-full md:w-40">
-          <button
-            className="flex-1 px-3 py-2 text-base"
-            onClick={decrementQuantity}
-            aria-label="Decrease quantity"
-          >
-            -
-          </button>
-          <Typography variant="p" className="text-center flex-1">
-            {quantity}
-          </Typography>
-          <button
-            className="flex-1 px-3 py-2 text-base"
-            onClick={incrementQuantity}
-            aria-label="Increase quantity"
-          >
-            +
-          </button>
-        </div>
-
+        <IncrementDecrementButton quantity={quantity} handleDecrement={decrementQuantity} handleIncrement={incrementQuantity}/>
         <Button
           variant="outline"
           size="lg"
@@ -134,7 +139,7 @@ const ProductDetails = ({ product, isLoading }: Props) => {
           {isWished ? "Added to Wishlist" : "Wishlist"}
         </Button>
       </div>
-      <Button variant="default" size="lg">
+      <Button variant="default" size="lg" onClick={handleAddToCart}>
         Add to Cart
       </Button>
 

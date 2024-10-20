@@ -9,6 +9,7 @@ import useGetProductById from "@/hooks/useGetProductById";
 import { ProductApi } from "@/types/ProductApi";
 import RelatedProducts from "@/components/relatedproducts/RelatedProducts";
 import BreadCrumbNavigator from "@/components/common/BreadCrumbNavigator";
+import AiImageAnalyzer from "../aiimageanalyzer/AiImageAnalyzer";
 
 type ProductContentProps = {
   productId: string;
@@ -32,6 +33,7 @@ const ProductContent = ({ productId }: ProductContentProps) => {
         />
         <ProductDetails product={product as ProductApi} isLoading={isLoading} />
       </div>
+      <AiImageAnalyzer/>
       <ProductInfo product={product as ProductApi} isLoading={isLoading} />
       <RelatedProducts category={(product as ProductApi)?.category} />
       <Footer />

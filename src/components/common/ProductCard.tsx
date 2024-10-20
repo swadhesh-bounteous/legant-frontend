@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import { Typography } from "@/components";
 import { useAddCartItem } from "@/hooks";
 import { AddCartItemRequest } from "@/types/AddCartItemRequest";
+import useLazyLoadImage from "@/hooks/useLazyLoadImage";
 
 type Props = {
   product: ProductApi;
@@ -15,6 +16,7 @@ type Props = {
 
 const ProductCard = ({ product }: Props) => {
   const router = useRouter();
+  const { isVisible, imgRef } = useLazyLoadImage(product.mainImage);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const userId = localStorage.getItem("userId");
 
@@ -26,18 +28,13 @@ const ProductCard = ({ product }: Props) => {
     setIsWishlisted((prev) => !prev);
   };
 
-  if (!userId) {
-    console.error("User ID not found. Please log in.");
-    return;
-  }
-
   const { mutate: addToCart } = useAddCartItem();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
 
     const addToCartRequest: AddCartItemRequest = {
-      UserId: userId,
+      UserId: userId || "",
       ProductId: product.id,
       Quantity: 1,
     };
@@ -48,7 +45,7 @@ const ProductCard = ({ product }: Props) => {
   const calculateDiscount = () => {
     if (!product.originalPrice || !product.price) return null;
     const discountPercentage = Math.round(
-      ((product.originalPrice - product.price) / product.originalPrice) * 100,
+      ((product.originalPrice - product.price) / product.originalPrice) * 100
     );
     return `-${discountPercentage}%`;
   };
@@ -58,14 +55,20 @@ const ProductCard = ({ product }: Props) => {
       className="relative border border-gray-200 rounded-sm overflow-hidden shadow-sm group cursor-pointer"
       onClick={handleClick}
     >
-      <div className="relative w-full md:w-auto">
-        <Image
-          src={product.mainImage}
-          alt={product.name}
-          width={200}
-          height={200}
-          className="w-full h-72 object-cover bg-gray-100 p-6"
-        />
+      <div ref={imgRef} className="relative w-full md:w-auto">
+        {isVisible ? (
+          <Image
+            src={product.mainImage}
+            alt={product.name}
+            width={200}
+            height={200}
+            className="w-full h-72 object-cover bg-gray-100 p-6"
+            loading="lazy"
+          />
+        ) : (
+          <div className="w-full h-72 bg-gray-100 animate-pulse" />
+        )}
+
         <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex justify-center items-end transition-opacity duration-300 p-4">
           <Button
             className="hover:border-2 focus:border-white font-semibold py-2 px-14 rounded-sm"

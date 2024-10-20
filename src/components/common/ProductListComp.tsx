@@ -1,11 +1,14 @@
 "use client";
 import { ProductApi } from "@/types/ProductApi";
-import { StarIcon, Heart } from "lucide-react"; // Assuming Heart is a valid icon from lucide-react
+import { StarIcon, Heart } from "lucide-react"; 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
 import Typography from "./Typography";
+import useLazyLoadImage from "@/hooks/useLazyLoadImage"; 
+import { AddCartItemRequest } from "@/types/AddCartItemRequest";
+import { useAddCartItem } from "@/hooks";
 
 type Props = {
   product: ProductApi;
@@ -14,26 +17,47 @@ type Props = {
 const ProductListComp = ({ product }: Props) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const router = useRouter();
+  const { isVisible, imgRef } = useLazyLoadImage(product.mainImage);
+  const userId = localStorage.getItem("userId"); 
 
   const handleClick = () => {
-    router.push(`/productdesc/?id=${product.id}`);
+    router.push(`/productdesc/${product.id}`);
   };
 
   const handleWishlistToggle = () => {
     setIsWishlisted((prev) => !prev);
   };
 
+  const { mutate: addToCart } = useAddCartItem();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    const addToCartRequest: AddCartItemRequest = {
+      UserId: userId || "",
+      ProductId: product.id,
+      Quantity: 1,
+    };
+
+    addToCart(addToCartRequest);
+  };
+
   return (
     <div className="flex flex-col sm:flex-row items-start gap-6 bg-white rounded-lg shadow-md border border-gray-200 cursor-pointer">
-      <div className="relative w-full sm:w-1/2 rounded-l-lg overflow-hidden">
-        <Image
-          src={product.mainImage}
-          alt={product.name}
-          height={200}
-          width={200}
-          className="w-full h-full object-cover bg-gray-100 p-4"
-          onClick={handleClick}
-        />
+      <div ref={imgRef} className="relative w-full sm:w-1/2 rounded-l-lg overflow-hidden">
+        {isVisible ? (
+          <Image
+            src={product.mainImage}
+            alt={product.name}
+            height={200}
+            width={200}
+            className="w-full h-96 object-cover bg-gray-100 p-12"
+            onClick={handleClick}
+            loading="lazy" 
+          />
+        ) : (
+          <div className="w-full h-full bg-gray-100 animate-pulse" /> 
+        )}
         {product.discount && (
           <Typography
             variant="span"
@@ -60,9 +84,9 @@ const ProductListComp = ({ product }: Props) => {
           ))}
         </div>
 
-        <h3 className="text-base font-semibold text-gray-800 line-clamp-1">
+        <Typography variant="h3" className="text-base font-semibold text-gray-800 line-clamp-1">
           {product.name}
-        </h3>
+        </Typography>
 
         <div className="flex items-baseline space-x-2 mt-1">
           <Typography
@@ -89,7 +113,7 @@ const ProductListComp = ({ product }: Props) => {
         </Typography>
 
         <div className="flex flex-col gap-y-4 pt-12">
-          <Button className="font-semibold rounded-sm w-full">
+          <Button className="font-semibold rounded-sm w-full" onClick={handleAddToCart}>
             Add to Cart
           </Button>
           <Button

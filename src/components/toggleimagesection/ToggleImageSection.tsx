@@ -3,6 +3,7 @@ import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 import ToggleImageSectionSkeleton from "../skeletons/ToggleImageSectionSkeleton";
 import AiImageAnalyzer from "../aiimageanalyzer/AiImageAnalyzer";
+import { useImageStore } from "@/store/useImageStore";
 
 interface ImageProps {
   url: string;
@@ -20,16 +21,16 @@ const ToggleImageSection: FC<ToggleImageSectionProps> = ({
   isLoading,
   isSuccess,
 }) => {
-  const [selectedImage, setSelectedImage] = useState<ImageProps | undefined>();
+  const { selectedImage, setSelectedImage } = useImageStore(); 
   const [isZoomActive, setIsZoomActive] = useState(false);
   const [zoomStyle, setZoomStyle] = useState({ backgroundPosition: "0% 0%" });
   const [highlightStyle, setHighlightStyle] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
-    if (isSuccess && images.length > 0) {
+    if (isSuccess && images.length > 0 && !selectedImage) {
       setSelectedImage(images[0]);
     }
-  }, [images, isSuccess]);
+  }, [images, isSuccess, selectedImage, setSelectedImage]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { left, top, width, height } =
@@ -64,9 +65,9 @@ const ToggleImageSection: FC<ToggleImageSectionProps> = ({
           <Image
             src={selectedImage.url}
             alt={selectedImage.alt}
-            layout="fill"
-            objectFit="cover"
-            className="rounded-lg border border-gray-300 p-2"
+            fill
+            className="rounded-lg border border-gray-300 p-1 object-cover"
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 75vw, (max-width: 1024px) 50vw, 33vw"
             priority
           />
 
@@ -101,14 +102,14 @@ const ToggleImageSection: FC<ToggleImageSectionProps> = ({
               <div
                 key={index}
                 className="relative group cursor-pointer"
-                onClick={() => setSelectedImage(image)}
+                onClick={() => setSelectedImage(image)} 
               >
                 <Image
                   src={image.url}
                   alt={image.alt}
-                  height={200}
-                  width={200}
-                  className="w-16 h-16 sm:w-32 sm:h-32 rounded-lg object-cover transition-transform transform group-hover:scale-105 duration-300 border border-gray-300 p-2"
+                  height={100}
+                  width={100}
+                  className="w-16 h-16 sm:w-32 sm:h-32 rounded-lg object-cover transition-transform transform group-hover:scale-105 duration-300 border border-gray-300"
                   loading="lazy"
                 />
               </div>
@@ -116,7 +117,6 @@ const ToggleImageSection: FC<ToggleImageSectionProps> = ({
           }
         })}
       </div>
-      {selectedImage && <AiImageAnalyzer imageUrl={selectedImage.url} />}
     </div>
   );
 };

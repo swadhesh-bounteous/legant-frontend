@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import ProductCard from "../common/ProductCard";
 import useGetProducts from "@/hooks/useGetProducts";
-import { ProductApi } from "@/types/ProductApi";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -29,7 +28,7 @@ const sortOptions = ["Price: Low to High", "Price: High to Low"];
 const ShopGridSection = () => {
   const [sortOrder, setSortOrder] = useState("default");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [priceRange, setPriceRange] = useState([0, 200000]);
+  const [priceRange, setPriceRange] = useState([0, 100000]);
   const [viewType, setViewType] = useState<"grid" | "list">("grid");
 
   const { data: productDetails = [], isPending } = useGetProducts(
@@ -72,7 +71,7 @@ const ShopGridSection = () => {
             <div className="flex flex-col px-4 py-2 w-full md:w-56">
               <Slider
                 min={0}
-                max={200000}
+                max={100000}
                 value={priceRange}
                 onValueChange={(value) => setPriceRange(value)}
                 step={1000}

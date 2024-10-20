@@ -16,10 +16,10 @@ const ShopUpperSection = () => {
         <Image
           src="/assets/images/shop_bg.jpg"
           alt="Shop background"
-          layout="fill"
-          objectFit="cover"
+          fill
           priority
-          className="rounded-lg"
+          className="rounded-lg object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
 
