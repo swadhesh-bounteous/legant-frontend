@@ -14,7 +14,7 @@ const SkeletonProductInfo = () => {
 };
 
 const ProductInfo = ({ product, isLoading }: Props) => {
-  const [activeTab, setActiveTab] = useState("additionalInfo");
+  const [activeTab, setActiveTab] = useState("reviews");
   const [fadeIn, setFadeIn] = useState(true);
   let timeoutId: NodeJS.Timeout;
 
@@ -76,7 +76,7 @@ const ProductInfo = ({ product, isLoading }: Props) => {
         }`}
       >
         {activeTab === "additionalInfo" && (
-          <div className="w-[80%] mx-auto">
+          <div className="w-[90%] mx-auto">
             <Typography
               variant="p"
               className="text-xs md:text-sm mt-2 text-gray-500"
@@ -87,7 +87,7 @@ const ProductInfo = ({ product, isLoading }: Props) => {
         )}
 
         {activeTab === "reviews" && (
-          <div className="w-[80%] mx-auto">
+          <div className="w-[90%] mx-auto">
             {product.reviews.length > 0 ? (
               <div className="space-y-6">
                 {product.reviews.map((review, index) => (

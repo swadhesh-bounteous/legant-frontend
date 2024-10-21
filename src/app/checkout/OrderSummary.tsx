@@ -12,6 +12,7 @@ import { CartItemResponse } from "@/types/CartItemResponse";
 import useOrderStore from "@/store/useOrderStore";
 import OrderSummarySkeleton from "@/components/skeletons/OrderSummarySkeleton";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "@/hooks/use-toast";
 
 const OrderSummary = () => {
   const { data: cartData, isLoading, error } = useGetUserCartItems();
@@ -35,7 +36,7 @@ const OrderSummary = () => {
           queryClient.invalidateQueries({ queryKey: ["product"] });
         },
       });
-      
+
       setCart((prevCart) =>
         prevCart.filter((item) => item.cartItemId !== cartItemId)
       );
@@ -107,21 +108,34 @@ const OrderSummary = () => {
   };
 
   const handlePlaceOrder = () => {
-    const orderDetails = {
-      orderId: new Date().toISOString(),
-      totalAmount: parseFloat(calculateTotal()),
-      items: cart.map((item) => ({
-        id: item.cartItemId,
-        name: item.products[0].productName,
-        quantity: item.products[0].productQuantity,
-        price: item.products[0].productPrice,
-      })),
-    };
+    try {
+      const orderDetails = {
+        orderId: new Date().toISOString(),
+        totalAmount: parseFloat(calculateTotal()),
+        items: cart.map((item) => ({
+          id: item.cartItemId,
+          name: item.products[0].productName,
+          quantity: item.products[0].productQuantity,
+          price: item.products[0].productPrice,
+        })),
+      };
 
-    setOrderDetails(orderDetails);
+      setOrderDetails(orderDetails);
+      toast({
+        title: "Order placed successfully",
+        description: "Order placed",
+        variant: "default",
+      });
+    } catch (err) {
+      toast({
+        title: "Unable to place order",
+        description: "Order not placed",
+        variant: "destructive",
+      });
+    }
   };
 
-  if (isLoading) return <OrderSummarySkeleton/>;
+  if (isLoading) return <OrderSummarySkeleton />;
   if (error)
     return <Typography variant="span">Error loading cart data</Typography>;
 
@@ -132,13 +146,11 @@ const OrderSummary = () => {
       </Typography>
       {cart.length > 0 ? (
         <>
-          <div className="overflow-x-auto p-4 border-2 border-gray-300 rounded-lg overflow-y-auto no-scrollbar">
+          <div className="overflow-x-auto p-4 overflow-y-auto no-scrollbar">
             <table className="w-full table-auto">
               <thead>
                 <tr className="text-left border-b-2 border-gray-300 pb-8">
-                  <th className="pb-2 w-[40%] md:w-[45%]">
-                    Product
-                  </th>
+                  <th className="pb-2 w-[40%] md:w-[45%]">Product</th>
                   <th className="pb-2 w-[20%]">Quantity</th>
                   <th className="pb-2 w-[20%]">Price</th>
                   <th className="pb-2 w-[15%]">Subtotal</th>
