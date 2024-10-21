@@ -9,6 +9,7 @@ import Typography from "./Typography";
 import useLazyLoadImage from "@/hooks/useLazyLoadImage"; 
 import { AddCartItemRequest } from "@/types/AddCartItemRequest";
 import { useAddCartItem } from "@/hooks";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   product: ProductApi;
@@ -19,6 +20,7 @@ const ProductListComp = ({ product }: Props) => {
   const router = useRouter();
   const { isVisible, imgRef } = useLazyLoadImage(product.mainImage);
   const userId = localStorage.getItem("userId"); 
+  const queryClient = useQueryClient();
 
   const handleClick = () => {
     router.push(`/productdesc/${product.id}`);
@@ -39,7 +41,11 @@ const ProductListComp = ({ product }: Props) => {
       Quantity: 1,
     };
 
-    addToCart(addToCartRequest);
+    addToCart(addToCartRequest, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["product"] });
+      },
+    });
   };
 
   return (

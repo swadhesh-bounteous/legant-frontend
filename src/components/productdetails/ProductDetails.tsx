@@ -8,6 +8,7 @@ import ProductDetailsSkeleton from "../skeletons/ProductDetailsSkeleton";
 import IncrementDecrementButton from "../common/IncrementDecrementButton";
 import { AddCartItemRequest } from "@/types/AddCartItemRequest";
 import { useAddCartItem } from "@/hooks";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   product: ProductApi;
@@ -20,6 +21,7 @@ const ProductDetails = ({ product, isLoading }: Props) => {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [isWished, setIsWished] = useState(false);
   const userId = localStorage.getItem("userId");
+  const queryClient = useQueryClient();
 
   const toggleWishlist = () => {
     setIsWished((prev) => !prev);
@@ -45,10 +47,14 @@ const ProductDetails = ({ product, isLoading }: Props) => {
     const addToCartRequest: AddCartItemRequest = {
       UserId: userId,
       ProductId: product.id,
-      Quantity: 1,
+      Quantity: quantity,
     };
 
-    addToCart(addToCartRequest);
+    addToCart(addToCartRequest, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["product"] });
+      },
+    });
   };
 
   if (isLoading) {

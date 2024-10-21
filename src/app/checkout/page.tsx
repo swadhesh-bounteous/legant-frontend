@@ -25,7 +25,7 @@ const Page: React.FC = () => {
       <div className="p-4 h-fit flex flex-col">
         <Typography
           variant="h1"
-          className="text-center text-2xl md:text-5xl font-normal mb-8"
+          className="text-center text-2xl md:text-4xl font-normal mb-8 py-4"
         >
           Checkout
         </Typography>
@@ -56,7 +56,6 @@ const Page: React.FC = () => {
                   ? "border-black font-semibold"
                   : "border-transparent text-gray-500"
               }`}
-              // Disable clicking to navigate if no order details
               onClick={() => handleTabChange("complete")}
               disabled={!orderDetails}
             >

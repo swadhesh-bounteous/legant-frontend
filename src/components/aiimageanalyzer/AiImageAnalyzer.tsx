@@ -6,7 +6,7 @@ import {
   generateKeywords,
   generateRelatedQuestions,
 } from "@/utils/AiImageAnalyzerHelper";
-import { Typography } from "@/components";
+import { LoadingSpinner, Typography } from "@/components";
 import { Button } from "../ui/button";
 import { useImageStore } from "@/store/useImageStore";
 
@@ -16,6 +16,7 @@ const AiImageAnalyzer = () => {
   const [keywords, setKeywords] = useState<string[]>([]);
   const [relatedQuestions, setRelatedQuestions] = useState<string[]>([]);
   const { selectedImage } = useImageStore();
+  const [isLoading, setIsLoading] = useState(false);
   const imageUrl = selectedImage?.url;
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const AiImageAnalyzer = () => {
     if (!imageFile) return;
 
     try {
+      setIsLoading(true);
       const identifiedText = await identifyImage(
         imageFile,
         additionalPrompt,
@@ -47,6 +49,8 @@ const AiImageAnalyzer = () => {
           ? `Error identifying image: ${error.message}`
           : "An unknown error occurred while identifying the image."
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -98,22 +102,35 @@ const AiImageAnalyzer = () => {
       className="p-6 md:p-12 border-y border-gray-300"
     >
       <div className="flex p-2 gap-x-12">
-      <Button
-        variant="outline"
-        onClick={() => handleIdentifyImage()}
-        className="w-full md:w-[50%] mb-4 border-2 border-gray-600"
-      >
-        Analyze Image
-      </Button>
-      <Typography variant="p" className="line-clamp-2 text-sm text-gray-600">This provides AI generated details of the product, related questions and tags. It is integrated with Google Gemini API to provide watch data about the product</Typography>
+        <Button
+          variant="outline"
+          onClick={() => handleIdentifyImage()}
+          className="w-full md:w-[50%] mb-4 border-2 border-gray-600"
+          disabled={isLoading}
+        >
+          {isLoading ? <LoadingSpinner /> : "Analyze Image"}
+        </Button>
+        <Typography
+          variant="p"
+          className="line-clamp-2 text-xs md:text-sm text-gray-600"
+        >
+          This provides AI generated details of the product, related questions
+          and tags. It is integrated with Google Gemini API to provide watch
+          data about the product
+        </Typography>
       </div>
-      
+
       {text && (
         <div className="bg-gray-50 p-8 border-t border-[1px] border-gray-600 rounded-md">
-          <Typography variant="h4" className="text-lg font-semibold mb-2 text-gray-700">
+          <Typography
+            variant="h4"
+            className="text-lg font-semibold mb-2 text-gray-700"
+          >
             Image Information:
           </Typography>
-          <div className="max-w-none text-sm">{renderTextWithDecoration(text)}</div>
+          <div className="max-w-none text-sm">
+            {renderTextWithDecoration(text)}
+          </div>
         </div>
       )}
       {keywords.length > 0 && (

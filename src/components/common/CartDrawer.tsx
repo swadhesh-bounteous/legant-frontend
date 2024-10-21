@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import IncrementDecrementButton from "./IncrementDecrementButton";
 import { useCartItemQuantityIncrement } from "@/hooks";
 import { useCartItemQuantityDecrement } from "@/hooks";
+import { toast } from "@/hooks/use-toast";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -23,6 +24,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
   const { mutate: incrementQuantity } = useCartItemQuantityIncrement();
   const { mutate: decrementQuantity } = useCartItemQuantityDecrement();
   const [cart, setCart] = useState<CartItemResponse[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -111,7 +113,27 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
   };
 
   const handleCheckout = () => {
-    router.push("/checkout");
+    try {
+      setIsLoading(true);
+      const token = localStorage.getItem("jwtToken");
+      if (!token) {
+        toast({
+          title: "Unauthorized",
+          description: "You need to login to proceed to checkout",
+          variant: "default",
+        });
+        return;
+      }
+      router.push("/checkout");
+    } catch (err) {
+      toast({
+        title: "Unauthorized",
+        description: "You have to Create/ Log-in account to checkout",
+        variant: "default",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

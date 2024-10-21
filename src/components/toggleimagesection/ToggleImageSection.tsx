@@ -68,7 +68,7 @@ const ToggleImageSection: FC<ToggleImageSectionProps> = ({
             fill
             className="rounded-lg border border-gray-300 p-1 object-cover"
             sizes="(max-width: 640px) 100vw, (max-width: 768px) 75vw, (max-width: 1024px) 50vw, 33vw"
-            loading="eager"
+            quality={10}
             priority
           />
 
