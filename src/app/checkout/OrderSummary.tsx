@@ -10,6 +10,7 @@ import { useCartItemQuantityIncrement } from "@/hooks";
 import { useCartItemQuantityDecrement } from "@/hooks";
 import { CartItemResponse } from "@/types/CartItemResponse";
 import useOrderStore from "@/store/useOrderStore";
+import OrderSummarySkeleton from "@/components/skeletons/OrderSummarySkeleton";
 
 const OrderSummary = () => {
   const { data: cartData, isLoading, error } = useGetUserCartItems();
@@ -31,7 +32,6 @@ const OrderSummary = () => {
       setCart((prevCart) =>
         prevCart.filter((item) => item.cartItemId !== cartItemId)
       );
-      console.log(`Removed item with ID: ${cartItemId}`);
     } catch (error) {
       console.error("Failed to remove item:", error);
     }
@@ -57,7 +57,6 @@ const OrderSummary = () => {
               : item
           )
         );
-        console.log(`Decremented quantity for item ID: ${cartItemId}`);
       },
       onError: (error) => {
         console.error("Failed to decrement quantity:", error);
@@ -114,7 +113,7 @@ const OrderSummary = () => {
     setOrderDetails(orderDetails);
   };
 
-  if (isLoading) return <Typography variant="span">Loading...</Typography>;
+  if (isLoading) return <OrderSummarySkeleton/>;
   if (error)
     return <Typography variant="span">Error loading cart data</Typography>;
 

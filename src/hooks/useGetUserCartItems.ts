@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { ProductApi } from "@/types/ProductApi";
 import { CartItemResponse } from "@/types/CartItemResponse";
 
 const fetchCartItemsByUserId = async (): Promise<CartItemResponse[]> => {

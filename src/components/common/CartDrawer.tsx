@@ -44,8 +44,8 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                     productQuantity: product.productQuantity + 1,
                   })),
                 }
-              : item,
-          ),
+              : item
+          )
         );
         console.log(`Incremented quantity for item ID: ${cartItemId}`);
       },
@@ -69,11 +69,11 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                           ...product,
                           productQuantity: product.productQuantity - 1,
                         }
-                      : product,
+                      : product
                   ),
                 }
-              : item,
-          ),
+              : item
+          )
         );
         console.log(`Decremented quantity for item ID: ${cartItemId}`);
       },
@@ -105,7 +105,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
         (sum, item) =>
           sum +
           item.products[0].productPrice * item.products[0].productQuantity,
-        0,
+        0
       )
       .toFixed(2);
   };
@@ -144,19 +144,22 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                     width={64}
                     height={64}
                   />
-                  <div className="flex-1 ml-4 border-b-[1px] border-gray-300 py-4">
+                  <div className="flex-1 ml-6 mr-2 border-b-[1px] border-gray-300 py-4">
                     <Typography variant="span" className="text-sm line-clamp-1">
                       {item.products[0].productName}
                     </Typography>
-                    <Typography variant="span" className="text-xs">
+                    <Typography variant="span" className="text-xs mt-2">
                       Price: ${item.products[0].productPrice.toFixed(2)}
                     </Typography>
-                    <IncrementDecrementButton
-                      quantity={item.products[0].productQuantity}
-                      handleIncrement={() => handleIncrement(item.cartItemId)}
-                      handleDecrement={() => handleDecrement(item.cartItemId)}
-                    />
+                    <div className="mt-4">
+                      <IncrementDecrementButton
+                        quantity={item.products[0].productQuantity}
+                        handleIncrement={() => handleIncrement(item.cartItemId)}
+                        handleDecrement={() => handleDecrement(item.cartItemId)}
+                      />
+                    </div>
                   </div>
+
                   <div className="flex flex-col">
                     <button onClick={() => handleDelete(item.cartItemId)}>
                       <Trash2 className="w-5 h-5 text-red-500" />

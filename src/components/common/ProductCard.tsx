@@ -9,6 +9,7 @@ import { Typography } from "@/components";
 import { useAddCartItem } from "@/hooks";
 import { AddCartItemRequest } from "@/types/AddCartItemRequest";
 import useLazyLoadImage from "@/hooks/useLazyLoadImage";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   product: ProductApi;
@@ -19,6 +20,7 @@ const ProductCard = ({ product }: Props) => {
   const { isVisible, imgRef } = useLazyLoadImage(product.mainImage);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const userId = localStorage.getItem("userId");
+  const queryClient = useQueryClient();
 
   const handleClick = () => {
     router.push(`/productdesc/${product.id}`);
@@ -39,7 +41,11 @@ const ProductCard = ({ product }: Props) => {
       Quantity: 1,
     };
 
-    addToCart(addToCartRequest);
+    addToCart(addToCartRequest, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["product"] });
+      },
+    });
   };
 
   const calculateDiscount = () => {

@@ -6,13 +6,13 @@ const incrementCartItemFn = async (cartItemId: string) => {
   const jwtToken = localStorage.getItem("jwtToken");
   const response = await axios.post(
     `https://localhost:7058/api/Cart/increment/${cartItemId}`,
+    {},
     {
-      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${jwtToken}`,
       },
-    },
+    }
   );
   return response.data;
 };

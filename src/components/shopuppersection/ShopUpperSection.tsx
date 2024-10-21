@@ -43,7 +43,7 @@ const ShopUpperSection = () => {
           Shop
         </Typography>
         <Typography variant="h2" className="w-[60%] md:text-lg text-xs">
-          Let's design the place you always imagined
+          Let's buy the swiss watches to charm around
         </Typography>
       </div>
     </section>
