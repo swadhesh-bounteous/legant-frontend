@@ -11,6 +11,7 @@ import { useCartItemQuantityDecrement } from "@/hooks";
 import { CartItemResponse } from "@/types/CartItemResponse";
 import useOrderStore from "@/store/useOrderStore";
 import OrderSummarySkeleton from "@/components/skeletons/OrderSummarySkeleton";
+import { useQueryClient } from "@tanstack/react-query";
 
 const OrderSummary = () => {
   const { data: cartData, isLoading, error } = useGetUserCartItems();
@@ -19,6 +20,7 @@ const OrderSummary = () => {
   const { mutate: decrementQuantity } = useCartItemQuantityDecrement();
   const [cart, setCart] = useState<CartItemResponse[]>([]);
   const setOrderDetails = useOrderStore((state) => state.setOrderDetails);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (cartData) {
@@ -28,7 +30,12 @@ const OrderSummary = () => {
 
   const handleRemoveItem = async (cartItemId: string) => {
     try {
-      await deleteFromCart(cartItemId);
+      await deleteFromCart(cartItemId, {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["product"] });
+        },
+      });
+      
       setCart((prevCart) =>
         prevCart.filter((item) => item.cartItemId !== cartItemId)
       );
@@ -57,6 +64,7 @@ const OrderSummary = () => {
               : item
           )
         );
+        queryClient.invalidateQueries({ queryKey: ["product"] });
       },
       onError: (error) => {
         console.error("Failed to decrement quantity:", error);
@@ -80,7 +88,7 @@ const OrderSummary = () => {
               : item
           )
         );
-        console.log(`Incremented quantity for item ID: ${cartItemId}`);
+        queryClient.invalidateQueries({ queryKey: ["product"] });
       },
       onError: (error) => {
         console.error("Failed to increment quantity:", error);

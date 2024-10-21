@@ -12,6 +12,7 @@ import IncrementDecrementButton from "./IncrementDecrementButton";
 import { useCartItemQuantityIncrement } from "@/hooks";
 import { useCartItemQuantityDecrement } from "@/hooks";
 import { toast } from "@/hooks/use-toast";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -206,10 +207,13 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                 <Typography variant="span">${calculateTotal()}</Typography>
               </div>
               <button
-                className="w-full bg-black text-white py-2 rounded"
+                className={`w-full bg-black text-white py-2 rounded ${
+                  isLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
                 onClick={handleCheckout}
+                disabled={isLoading} 
               >
-                Checkout
+                {isLoading ? <LoadingSpinner /> : "Checkout"}
               </button>
             </>
           )}
