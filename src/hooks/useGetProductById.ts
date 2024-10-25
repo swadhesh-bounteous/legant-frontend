@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ProductApi } from "@/types/ProductApi";
+import { ProductApi } from "@/types";
 
 const fetchProductById = async (id: string): Promise<ProductApi> => {
   const jwtToken = localStorage.getItem("jwtToken");

@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { StarIcon, Heart } from "lucide-react";
-import { ProductApi } from "@/types/ProductApi";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { Typography } from "@/components";
@@ -10,12 +9,9 @@ import { useAddCartItem } from "@/hooks";
 import { AddCartItemRequest } from "@/types/AddCartItemRequest";
 import useLazyLoadImage from "@/hooks/useLazyLoadImage";
 import { useQueryClient } from "@tanstack/react-query";
+import { ProductCardProps } from "@/types";
 
-type Props = {
-  product: ProductApi;
-};
-
-const ProductCard = ({ product }: Props) => {
+const ProductCard = ({ product }: ProductCardProps) => {
   const router = useRouter();
   const { isVisible, imgRef } = useLazyLoadImage(product.mainImage);
   const [isWishlisted, setIsWishlisted] = useState(false);

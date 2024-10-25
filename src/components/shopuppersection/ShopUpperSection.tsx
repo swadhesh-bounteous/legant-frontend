@@ -11,7 +11,7 @@ import {
 
 const ShopUpperSection = () => {
   return (
-    <section className="relative w-[90%] mx-auto rounded-lg h-[300px] md:h-[400px] font-Poppins">
+    <section className="relative w-[90%] mx-auto rounded-lg h-[300px] md:h-[400px]">
       <div className="absolute inset-0 -z-10">
         <Image
           src="/assets/images/shop_bg.jpg"

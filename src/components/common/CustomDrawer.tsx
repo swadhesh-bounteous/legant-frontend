@@ -1,14 +1,8 @@
-// src/components/Navbar/CustomDrawer.tsx
-
 import React from "react";
 import Link from "next/link";
 import { X } from "lucide-react";
 import Typography from "@/components/common/Typography";
-
-interface CustomDrawerProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import { CustomDrawerProps } from "@/types";
 
 const CustomDrawer: React.FC<CustomDrawerProps> = ({ isOpen, onClose }) => {
   return (

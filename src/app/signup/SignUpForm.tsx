@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import { signUpSchema } from "@/types/SignUpSchema";
+import { signUpSchema } from "@/types/schemas/SignUpSchema";
 import Typography from "@/components/common/Typography";
 import { useRegister } from "@/hooks";
 import { LoadingSpinner } from "@/components";

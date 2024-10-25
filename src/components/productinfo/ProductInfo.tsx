@@ -1,19 +1,15 @@
 "use client";
-import { ProductApi } from "@/types/ProductApi";
+import { ProductApi } from "@/types";
 import React, { useState, useEffect } from "react";
 import Typography from "../common/Typography";
 import ProductInfoSkeleton from "../skeletons/ProductInfoSkeleton";
 
-type Props = {
+interface ProductInfoProps {
   product: ProductApi;
   isLoading: boolean;
-};
+}
 
-const SkeletonProductInfo = () => {
-  return <ProductInfoSkeleton />;
-};
-
-const ProductInfo = ({ product, isLoading }: Props) => {
+const ProductInfo = ({ product, isLoading }: ProductInfoProps) => {
   const [activeTab, setActiveTab] = useState("reviews");
   const [fadeIn, setFadeIn] = useState(true);
   let timeoutId: NodeJS.Timeout;
@@ -34,7 +30,7 @@ const ProductInfo = ({ product, isLoading }: Props) => {
   }, [activeTab]);
 
   if (isLoading) {
-    return <SkeletonProductInfo />;
+    return <ProductInfoSkeleton />;
   }
 
   return (
@@ -100,9 +96,9 @@ const ProductInfo = ({ product, isLoading }: Props) => {
                         {review.user[0].toUpperCase()}
                       </div>
                       <div>
-                        <h4 className="font-semibold text-xs md:text-sm">
+                        <Typography variant="h4" className="font-semibold text-xs md:text-sm">
                           {review.user}
-                        </h4>
+                        </Typography>
                         <div className="flex">
                           {[...Array(Math.floor(review.rating))].map((_, i) => (
                             <Typography
@@ -122,7 +118,7 @@ const ProductInfo = ({ product, isLoading }: Props) => {
                               >
                                 ★
                               </Typography>
-                            ),
+                            )
                           )}
                         </div>
                       </div>

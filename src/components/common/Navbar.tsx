@@ -82,9 +82,9 @@ const Navbar = () => {
           >
             <ShoppingBag className="w-5 h-5" />
             {cartItemCount > 0 && (
-              <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs px-1">
+              <Typography variant="span" className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs px-1">
                 {cartItemCount}
-              </span>
+              </Typography>
             )}
           </button>
         </div>
@@ -100,9 +100,9 @@ const Navbar = () => {
           >
             <ShoppingBag className="w-5 h-5" />
             {cartItemCount > 0 && (
-              <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs px-1">
+              <Typography variant="span" className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs px-1">
                 {cartItemCount}
-              </span>
+              </Typography>
             )}
           </button>
         </div>

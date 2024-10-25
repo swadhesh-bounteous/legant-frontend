@@ -1,5 +1,5 @@
 import { LucideIcon } from "lucide-react";
-export type ViewToggleButtonType = {
+export interface ViewToggleButtonType {
   viewType: string;
   currentViewType: string;
   Icon: LucideIcon;

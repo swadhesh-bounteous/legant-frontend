@@ -8,7 +8,7 @@ import Typography from "@/components/common/Typography";
 
 const SignUpForm = dynamic(() => import("./SignUpForm"));
 
-const page = () => {
+const SignUpPage = () => {
   return (
     <div className="max-h-screen flex justify-center bg-gray-50">
       <div className="flex flex-col md:flex-row w-full overflow-hidden">
@@ -17,8 +17,7 @@ const page = () => {
             src={user_reg}
             aria-label="Sign up image"
             alt="Signup"
-            className="w-full h-full md:p-24"
-            style={{ objectFit: "contain" }}
+            className="w-full h-full md:p-24 object-contain"
             priority
           />
         </div>
@@ -42,4 +41,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default SignUpPage;

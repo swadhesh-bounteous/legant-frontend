@@ -1,26 +1,19 @@
 "use client";
 import React from "react";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
 import ProductDetails from "@/components/productdetails/ProductDetails";
 import ProductInfo from "@/components/productinfo/ProductInfo";
 import ToggleImageSection from "@/components/toggleimagesection/ToggleImageSection";
 import useGetProductById from "@/hooks/useGetProductById";
-import { ProductApi } from "@/types/ProductApi";
+import { ProductApi, ProductContentProps } from "@/types";
 import RelatedProducts from "@/components/relatedproducts/RelatedProducts";
 import BreadCrumbNavigator from "@/components/common/BreadCrumbNavigator";
 import AiImageAnalyzer from "../aiimageanalyzer/AiImageAnalyzer";
-
-type ProductContentProps = {
-  productId: string;
-};
 
 const ProductContent = ({ productId }: ProductContentProps) => {
   const { data: product, isLoading, isSuccess } = useGetProductById(productId);
 
   return (
     <div className="flex flex-col">
-      <Navbar />
       <BreadCrumbNavigator
         product={product as ProductApi}
         isLoading={isLoading}
@@ -33,10 +26,9 @@ const ProductContent = ({ productId }: ProductContentProps) => {
         />
         <ProductDetails product={product as ProductApi} isLoading={isLoading} />
       </div>
-      <AiImageAnalyzer/>
+      <AiImageAnalyzer />
       <ProductInfo product={product as ProductApi} isLoading={isLoading} />
       <RelatedProducts category={(product as ProductApi)?.category} />
-      <Footer />
     </div>
   );
 };

@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { ProductApi } from "@/types/ProductApi";
+import { ProductApi } from "@/types";
 
 const fetchProducts = async (
   category?: string,
   minPrice?: number,
   maxPrice?: number,
-  sortOrder?: string,
+  sortOrder?: string
 ): Promise<Array<ProductApi>> => {
   const jwtToken = localStorage.getItem("jwtToken");
   const queryParams = new URLSearchParams();
@@ -40,7 +40,7 @@ const useGetProducts = (
   category?: string,
   minPrice?: number,
   maxPrice?: number,
-  sortOrder?: string,
+  sortOrder?: string
 ) => {
   return useQuery({
     queryKey: ["products", category, minPrice, maxPrice, sortOrder],

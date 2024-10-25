@@ -7,7 +7,7 @@ import Typography from "@/components/common/Typography";
 
 const SigninForm = dynamic(() => import("./SigninForm"));
 
-const page = () => {
+const SignInPage = () => {
   return (
     <div className="max-h-screen flex justify-center bg-gray-50">
       <div className="flex flex-col md:flex-row w-full overflow-hidden">
@@ -41,4 +41,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default SignInPage;

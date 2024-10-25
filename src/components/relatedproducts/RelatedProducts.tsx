@@ -2,14 +2,14 @@
 import useGetProductByCategory from "@/hooks/useGetProductByCategory";
 import React, { useState } from "react";
 import ProductCard from "../common/ProductCard";
-import { ProductApi } from "@/types/ProductApi";
+import { ProductApi } from "@/types";
 import Typography from "../common/Typography";
 
-type Props = {
+interface RelatedProductsProps {
   category: string;
-};
+}
 
-const RelatedProducts = ({ category }: Props) => {
+const RelatedProducts = ({ category }: RelatedProductsProps) => {
   const {
     data: productDetails = [],
     isLoading,

@@ -3,13 +3,11 @@ import React, { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import OrderSummary from "./OrderSummary";
 import OrderComplete from "./OrderComplete";
-import { Navbar } from "@/components";
-import { Footer } from "@/components/";
 import { Typography } from "@/components";
 import { CheckCheckIcon } from "lucide-react";
 import useOrderStore from "@/store/useOrderStore";
 
-const Page: React.FC = () => {
+const CheckoutPage: React.FC = () => {
   const [currentTab, setCurrentTab] = useState("summary");
   const { orderDetails } = useOrderStore();
 
@@ -21,7 +19,6 @@ const Page: React.FC = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="p-4 h-fit flex flex-col">
         <Typography
           variant="h1"
@@ -41,10 +38,10 @@ const Page: React.FC = () => {
               onClick={() => handleTabChange("summary")}
             >
               {orderDetails ? (
-                <span className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2">
                   <CheckCheckIcon className="h-5 w-5 text-green-500" />
-                  <span>Checkout Details</span>
-                </span>
+                  <Typography variant="span">Checkout Details</Typography>
+                </div>
               ) : (
                 "Order Summary"
               )}
@@ -77,9 +74,8 @@ const Page: React.FC = () => {
           </TabsContent>
         </Tabs>
       </div>
-      <Footer />
     </div>
   );
 };
 
-export default Page;
+export default CheckoutPage;

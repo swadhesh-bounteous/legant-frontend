@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
-import { signInSchema } from "@/types/SignInSchema";
+import { signInSchema } from "@/types/schemas/SignInSchema";
 import { Typography } from "@/components";
 import { useLogin } from "@/hooks";
 import { LoadingSpinner } from "@/components";

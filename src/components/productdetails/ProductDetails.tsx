@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
-import { ProductApi } from "@/types/ProductApi";
 import { Heart } from "lucide-react";
 import Typography from "../common/Typography";
 import ProductDetailsSkeleton from "../skeletons/ProductDetailsSkeleton";
@@ -9,13 +8,9 @@ import IncrementDecrementButton from "../common/IncrementDecrementButton";
 import { AddCartItemRequest } from "@/types/AddCartItemRequest";
 import { useAddCartItem } from "@/hooks";
 import { useQueryClient } from "@tanstack/react-query";
+import { ProductDetailsProps } from "@/types";
 
-type Props = {
-  product: ProductApi;
-  isLoading: boolean;
-};
-
-const ProductDetails = ({ product, isLoading }: Props) => {
+const ProductDetails = ({ product, isLoading }: ProductDetailsProps) => {
   const [quantity, setQuantity] = useState<number>(1);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
@@ -75,7 +70,7 @@ const ProductDetails = ({ product, isLoading }: Props) => {
           {product.reviews.length} Reviews
         </Typography>
       </div>
-      <h1 className="text-2xl md:text-4xl font-medium">{product.name}</h1>
+      <Typography variant="h1" className="text-2xl md:text-4xl font-medium">{product.name}</Typography>
       <div className="flex justify-start items-end space-x-2 text-lg">
         <Typography variant="span" className="text-black font-medium">
           ${product.price}

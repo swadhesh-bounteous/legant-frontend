@@ -2,19 +2,8 @@
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 import ToggleImageSectionSkeleton from "../skeletons/ToggleImageSectionSkeleton";
-import AiImageAnalyzer from "../aiimageanalyzer/AiImageAnalyzer";
 import { useImageStore } from "@/store/useImageStore";
-
-interface ImageProps {
-  url: string;
-  alt: string;
-}
-
-interface ToggleImageSectionProps {
-  images: ImageProps[];
-  isLoading: boolean;
-  isSuccess: boolean;
-}
+import { ToggleImageSectionProps } from "@/types";
 
 const ToggleImageSection: FC<ToggleImageSectionProps> = ({
   images,

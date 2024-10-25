@@ -13,11 +13,7 @@ import { useCartItemQuantityIncrement } from "@/hooks";
 import { useCartItemQuantityDecrement } from "@/hooks";
 import { toast } from "@/hooks/use-toast";
 import LoadingSpinner from "./LoadingSpinner";
-
-interface CartDrawerProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import { CartDrawerProps } from "@/types";
 
 const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
   const { data: cartData } = useGetUserCartItems();

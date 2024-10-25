@@ -1,25 +1,25 @@
 "use client";
-import { ProductApi } from "@/types/ProductApi";
-import { StarIcon, Heart } from "lucide-react"; 
+import { ProductApi } from "@/types";
+import { StarIcon, Heart } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import Typography from "./Typography";
-import useLazyLoadImage from "@/hooks/useLazyLoadImage"; 
+import useLazyLoadImage from "@/hooks/useLazyLoadImage";
 import { AddCartItemRequest } from "@/types/AddCartItemRequest";
 import { useAddCartItem } from "@/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 
-type Props = {
+interface ProductListCompProps {
   product: ProductApi;
-};
+}
 
-const ProductListComp = ({ product }: Props) => {
+const ProductListComp = ({ product }: ProductListCompProps) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const router = useRouter();
   const { isVisible, imgRef } = useLazyLoadImage(product.mainImage);
-  const userId = localStorage.getItem("userId"); 
+  const userId = localStorage.getItem("userId");
   const queryClient = useQueryClient();
 
   const handleClick = () => {
@@ -50,7 +50,10 @@ const ProductListComp = ({ product }: Props) => {
 
   return (
     <div className="flex flex-col sm:flex-row items-start gap-6 bg-white rounded-lg shadow-md border border-gray-200 cursor-pointer">
-      <div ref={imgRef} className="relative w-full sm:w-1/2 rounded-l-lg overflow-hidden">
+      <div
+        ref={imgRef}
+        className="relative w-full sm:w-1/2 rounded-l-lg overflow-hidden"
+      >
         {isVisible ? (
           <Image
             src={product.mainImage}
@@ -59,10 +62,10 @@ const ProductListComp = ({ product }: Props) => {
             width={200}
             className="w-full h-96 object-cover bg-gray-100 p-12"
             onClick={handleClick}
-            loading="lazy" 
+            loading="lazy"
           />
         ) : (
-          <div className="w-full h-full bg-gray-100 animate-pulse" /> 
+          <div className="w-full h-full bg-gray-100 animate-pulse" />
         )}
         {product.discount && (
           <Typography
@@ -90,7 +93,10 @@ const ProductListComp = ({ product }: Props) => {
           ))}
         </div>
 
-        <Typography variant="h3" className="text-base font-semibold text-gray-800 line-clamp-1">
+        <Typography
+          variant="h3"
+          className="text-base font-semibold text-gray-800 line-clamp-1"
+        >
           {product.name}
         </Typography>
 
@@ -119,7 +125,11 @@ const ProductListComp = ({ product }: Props) => {
         </Typography>
 
         <div className="flex flex-col gap-y-4 pt-12">
-          <Button className="font-semibold rounded-sm w-full" onClick={handleAddToCart} aria-label="Add to cart">
+          <Button
+            className="font-semibold rounded-sm w-full"
+            onClick={handleAddToCart}
+            aria-label="Add to cart"
+          >
             Add to Cart
           </Button>
           <Button

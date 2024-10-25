@@ -1,9 +1,7 @@
 import React from 'react';
 import { Skeleton } from '../ui/skeleton';
 
-type Props = {};
-
-const OrderSummarySkeleton = (props: Props) => {
+const OrderSummarySkeleton = () => {
   return (
     <div className="p-6 w-[90%] mx-auto">
       <div className="overflow-x-auto p-4 border-2 border-gray-300 rounded-lg">
