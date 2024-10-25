@@ -14,16 +14,7 @@ import Typography from "../common/Typography";
 import { ProductListComp } from "@/components/index";
 import { Slider } from "../ui/slider";
 import { LoadingSpinner } from "@/components/index";
-
-const categories = [
-  "All",
-  "Breguet",
-  "Rolex",
-  "Omega",
-  "Audemars Piguet",
-  "Rado",
-];
-const sortOptions = ["Price: Low to High", "Price: High to Low"];
+import { categories, sortOptions } from "@/utils/constants";
 
 const ShopGridSection = () => {
   const [sortOrder, setSortOrder] = useState("default");

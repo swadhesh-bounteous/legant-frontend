@@ -1,11 +1,6 @@
 import React from "react";
 import Typography from "./Typography";
-
-interface IncrementDecrementButtonProps {
-  quantity: number;
-  handleIncrement: () => void;
-  handleDecrement: () => void;
-}
+import { IncrementDecrementButtonProps } from "@/types";
 
 const IncrementDecrementButton: React.FC<IncrementDecrementButtonProps> = ({
   quantity,

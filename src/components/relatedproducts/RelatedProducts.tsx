@@ -2,12 +2,8 @@
 import useGetProductByCategory from "@/hooks/useGetProductByCategory";
 import React, { useState } from "react";
 import ProductCard from "../common/ProductCard";
-import { ProductApi } from "@/types";
+import { ProductApi, RelatedProductsProps } from "@/types";
 import Typography from "../common/Typography";
-
-interface RelatedProductsProps {
-  category: string;
-}
 
 const RelatedProducts = ({ category }: RelatedProductsProps) => {
   const {

@@ -1,5 +1,5 @@
 "use client";
-import { ProductApi } from "@/types";
+import { ProductListCompProps } from "@/types";
 import { StarIcon, Heart } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -10,10 +10,6 @@ import useLazyLoadImage from "@/hooks/useLazyLoadImage";
 import { AddCartItemRequest } from "@/types/AddCartItemRequest";
 import { useAddCartItem } from "@/hooks";
 import { useQueryClient } from "@tanstack/react-query";
-
-interface ProductListCompProps {
-  product: ProductApi;
-}
 
 const ProductListComp = ({ product }: ProductListCompProps) => {
   const [isWishlisted, setIsWishlisted] = useState(false);

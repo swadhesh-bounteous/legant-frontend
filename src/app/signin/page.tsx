@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import user_reg from "../../../public/assets/images/user_reg.png";
+import user_reg from "public/assets/images/user_reg.png";
 import dynamic from "next/dynamic";
 import Typography from "@/components/common/Typography";
 

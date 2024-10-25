@@ -1,11 +1,6 @@
 import React from "react";
 import { ProductContent } from "@/components";
-
-interface ProductDescPageProps {
-  params: {
-    id: string;
-  };
-}
+import { ProductDescPageProps } from "@/types";
 
 const ProductDescriptionPage: React.FC<ProductDescPageProps> = ({ params }) => {
   const { id } = params;

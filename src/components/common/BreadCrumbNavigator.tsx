@@ -7,13 +7,8 @@ import {
   BreadcrumbSeparator,
 } from "../ui/breadcrumb";
 import { useRouter } from "next/navigation";
-import { ProductApi } from "@/types";
+import { BreadCrumbNavigatorProps } from "@/types";
 import { Typography } from "@/components";
-
-interface BreadCrumbNavigatorProps {
-  product: ProductApi;
-  isLoading: boolean;
-}
 
 const BreadCrumbNavigator = ({
   product,

@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from "react";
 import ToggleImageSectionSkeleton from "../skeletons/ToggleImageSectionSkeleton";
 import { useImageStore } from "@/store/useImageStore";
 import { ToggleImageSectionProps } from "@/types";
+import { handleMouseMove } from "@/utils/Helper";
 
 const ToggleImageSection: FC<ToggleImageSectionProps> = ({
   images,
@@ -21,23 +22,6 @@ const ToggleImageSection: FC<ToggleImageSectionProps> = ({
     }
   }, [images, isSuccess, selectedImage, setSelectedImage]);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { left, top, width, height } =
-      e.currentTarget.getBoundingClientRect();
-    const x = e.pageX - left;
-    const y = e.pageY - top;
-
-    const xPercent = (x / width) * 100;
-    const yPercent = (y / height) * 100;
-
-    setZoomStyle({ backgroundPosition: `${xPercent}% ${yPercent}%` });
-
-    setHighlightStyle({
-      top: y - 100,
-      left: x - 100,
-    });
-  };
-
   if (isLoading) {
     return <ToggleImageSectionSkeleton />;
   }
@@ -47,7 +31,7 @@ const ToggleImageSection: FC<ToggleImageSectionProps> = ({
       {selectedImage && (
         <div
           className="relative w-full h-64 sm:h-80 md:h-96 max-w-full md:max-w-lg"
-          onMouseMove={handleMouseMove}
+          onMouseMove={(e) => handleMouseMove(e, setZoomStyle, setHighlightStyle)}
           onMouseEnter={() => setIsZoomActive(true)}
           onMouseLeave={() => setIsZoomActive(false)}
         >

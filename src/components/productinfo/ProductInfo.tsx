@@ -1,13 +1,8 @@
 "use client";
-import { ProductApi } from "@/types";
+import { ProductInfoProps } from "@/types";
 import React, { useState, useEffect } from "react";
 import Typography from "../common/Typography";
 import ProductInfoSkeleton from "../skeletons/ProductInfoSkeleton";
-
-interface ProductInfoProps {
-  product: ProductApi;
-  isLoading: boolean;
-}
 
 const ProductInfo = ({ product, isLoading }: ProductInfoProps) => {
   const [activeTab, setActiveTab] = useState("reviews");
